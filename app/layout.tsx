@@ -14,7 +14,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Pemuda GKSBS GPJ",
+  title: "Youth GKSBS GPJ",
   description:
     "Website Pemuda GKSBS Gunung Pasir Jaya — ruang untuk bertumbuh, melayani, dan berjalan bersama dalam Kristus.",
 };
