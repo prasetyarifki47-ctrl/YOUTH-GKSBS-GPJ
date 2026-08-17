@@ -1,18 +1,101 @@
 @import "tailwindcss";
 
 :root {
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-cormorant);
+  --font-sans: "Cambria Math", Cambria, serif;
+  --font-serif: "Times New Roman", Times, serif;
+
   --background: #f8f5f1;
-  --foreground: #2d2d2d;
+  --foreground: #3b3028;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-weight: 450;
 }
 
 .font-heading {
   font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+/* ============================================================
+   HERO ENTRANCE ANIMATIONS
+============================================================ */
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* Label */
+.animate-hero-label {
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease-out 0.15s forwards;
+}
+
+
+/* Headline */
+.animate-hero-title {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.35s forwards;
+}
+
+
+/* Ayat */
+.animate-hero-verse {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.55s forwards;
+}
+
+
+/* Buttons */
+.animate-hero-buttons {
+  opacity: 0;
+  animation: heroFadeUp 0.8s ease-out 0.75s forwards;
+}
+
+
+/* Hero Image */
+.animate-hero-image {
+  opacity: 0;
+  animation: heroFadeRight 0.9s ease-out 0.45s forwards;
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-label,
+  .animate-hero-title,
+  .animate-hero-verse,
+  .animate-hero-buttons,
+  .animate-hero-image {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
 }

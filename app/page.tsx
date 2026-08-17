@@ -3,33 +3,35 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Navbar from "@/components/navbar";
+import ScrollReveal from "@/components/scroll-reveal";
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#F7F3EC] text-[#2E2A26]">
-      <Navbar />
 
       {/* =====================================================
           HERO
       ====================================================== */}
-      <section className="relative overflow-hidden px-6 pb-24 pt-36 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="relative overflow-hidden px-6 pb-24 pt-36 sm:px-10 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1560px]">
 
-          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] xl:gap-24">
 
             {/* TEXT */}
             <div className="max-w-2xl">
 
-              <div className="mb-6 flex items-center gap-3">
+              <div className="mb-6 flex items-center gap-3 animate-hero-label">
+
                 <div className="h-px w-10 bg-[#8B7355]" />
 
                 <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#8B7355] sm:text-sm">
                   COME AND JOIN US!
                 </p>
+
               </div>
 
-              <h1 className="font-heading text-5xl leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+
+              <h1 className="font-heading text-5xl leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl animate-hero-title">
                 WE GROW
                 <br />
 
@@ -39,10 +41,7 @@ export default function HomePage() {
               </h1>
 
 
-              {/* =================================================
-                  AYAT ALKITAB
-              ================================================== */}
-              <div className="mt-7 max-w-xl border-l-2 border-[#BFA98D] pl-5">
+              <div className="mt-7 max-w-xl border-l-2 border-[#BFA98D] pl-5 animate-hero-verse">
 
                 <p className="font-heading text-xl italic leading-8 text-[#6F6860] sm:text-2xl">
                   “Jangan seorang pun menganggap engkau rendah karena
@@ -56,19 +55,18 @@ export default function HomePage() {
               </div>
 
 
-              {/* BUTTON */}
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row animate-hero-buttons">
 
                 <Link
                   href="/tentang"
-                  className="inline-flex items-center justify-center rounded-lg bg-[#4A3426] px-6 py-3.5 text-sm font-medium text-white transition duration-300 hover:bg-[#654734]"
+                  className="inline-flex items-center justify-center rounded-lg bg-[#4A3426] px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#654734] hover:shadow-md"
                 >
                   Pelajari Lebih Lanjut
                 </Link>
 
                 <Link
                   href="/kegiatan"
-                  className="inline-flex items-center justify-center rounded-lg border border-[#BFA98D] px-6 py-3.5 text-sm font-medium text-[#6F503B] transition duration-300 hover:bg-white"
+                  className="inline-flex items-center justify-center rounded-lg border border-[#BFA98D] px-6 py-3.5 text-sm font-medium text-[#6F503B] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white hover:shadow-sm"
                 >
                   Lihat Kegiatan
                 </Link>
@@ -79,16 +77,16 @@ export default function HomePage() {
 
 
             {/* IMAGE */}
-            <div className="relative">
+            <div className="relative animate-hero-image">
 
-              <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2rem] bg-[#E6DED3]">
+              <div className="group relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2rem] bg-[#E6DED3] shadow-[0_18px_45px_rgba(74,52,38,0.12)] transition-shadow duration-500 hover:shadow-[0_22px_55px_rgba(74,52,38,0.18)]">
 
                 <Image
                   src="/images/cover.jpeg"
                   alt="Pemuda GKSBS Gunung Pasir Jaya"
                   fill
                   priority
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
                 />
 
               </div>
@@ -104,38 +102,75 @@ export default function HomePage() {
       {/* =====================================================
           SEKILAS TENTANG KAMI
       ====================================================== */}
-      <section className="bg-white px-6 py-20 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-white px-6 py-24 sm:px-10 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1560px]">
 
-          <div className="max-w-3xl">
+          <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center xl:gap-28">
 
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-              Tentang Kami
-            </p>
+            {/* HEADING */}
+            <ScrollReveal>
 
-            <h2 className="font-heading text-4xl leading-tight sm:text-5xl lg:text-6xl">
-              Satu ruang untuk
-              <br />
+              <div className="max-w-xl">
 
-              <span className="italic text-[#8B7355]">
-                bertumbuh bersama.
-              </span>
-            </h2>
+                <div className="mb-5 flex items-center gap-3">
 
-            <p className="mt-6 text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
-              Youth GKSBS Gunung Pasir Jaya merupakan wadah
-              persekutuan pemuda-pemudi untuk bertumbuh dalam iman,
-              membangun persaudaraan, mengembangkan talenta,
-              dan melayani bersama.
-            </p>
+                  <div className="h-px w-10 bg-[#BFA98D]" />
 
-            <Link
-              href="/tentang"
-              className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-[#6F503B] transition duration-300 hover:text-[#8B7355]"
-            >
-              Kenali kami lebih dekat
-              <span aria-hidden="true">→</span>
-            </Link>
+                  <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                    Tentang Kami
+                  </p>
+
+                </div>
+
+
+                <h2 className="font-heading text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
+                  A place to grow
+                  <br />
+
+                  <span className="italic text-[#8B7355]">
+                    serve and belong.
+                  </span>
+                </h2>
+
+              </div>
+
+            </ScrollReveal>
+
+
+            {/* DESCRIPTION */}
+            <ScrollReveal delay={150}>
+
+              <div className="max-w-2xl lg:ml-auto">
+
+                <div className="border-l-2 border-[#DED7CE] pl-6 sm:pl-8">
+
+                  <p className="text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
+                    Youth GKSBS Gunung Pasir Jaya merupakan wadah
+                    persekutuan pemuda-pemudi untuk bertumbuh dalam iman,
+                    membangun persaudaraan, mengembangkan talenta,
+                    dan melayani bersama.
+                  </p>
+
+                </div>
+
+
+                <Link
+                  href="/tentang"
+                  className="group mt-8 inline-flex items-center gap-3 text-sm font-medium text-[#6F503B] transition-colors duration-300 hover:text-[#8B7355]"
+                >
+                  Kenali kami lebih dekat
+
+                  <span
+                    aria-hidden="true"
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </Link>
+
+              </div>
+
+            </ScrollReveal>
 
           </div>
 
@@ -146,143 +181,167 @@ export default function HomePage() {
       {/* =====================================================
           PREVIEW KEGIATAN
       ====================================================== */}
-      <section className="bg-[#F7F3EC] px-6 py-20 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-[#F7F3EC] px-6 py-24 sm:px-10 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1560px]">
 
-          {/* HEADING */}
-          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <ScrollReveal>
 
-            <div className="max-w-2xl">
+            <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
 
-              <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-                Kegiatan
-              </p>
+              <div className="max-w-2xl">
 
-              <h2 className="font-heading text-4xl leading-tight sm:text-5xl lg:text-6xl">
-                Bertemu,
-                <br />
+                <div className="mb-5 flex items-center gap-3">
 
-                <span className="italic text-[#8B7355]">
-                  bertumbuh bersama.
+                  <div className="h-px w-10 bg-[#BFA98D]" />
+
+                  <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                    Kegiatan
+                  </p>
+
+                </div>
+
+
+                <h2 className="font-heading text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
+                  Gathered
+                  <br />
+
+                  <span className="italic text-[#8B7355]">
+                    to grow.
+                  </span>
+                </h2>
+
+
+                <p className="mt-6 max-w-xl text-base leading-8 text-[#6F6860]">
+                  Berbagai kegiatan menjadi ruang bagi kami untuk
+                  bersekutu, belajar, melayani, dan menikmati
+                  kebersamaan.
+                </p>
+
+              </div>
+
+
+              <Link
+                href="/kegiatan"
+                className="group shrink-0 text-sm font-medium text-[#6F503B] transition-colors duration-300 hover:text-[#8B7355]"
+              >
+                <span>
+                  Lihat semua kegiatan
                 </span>
-              </h2>
 
-              <p className="mt-5 text-base leading-8 text-[#6F6860]">
-                Berbagai kegiatan menjadi ruang bagi kami untuk
-                bersekutu, belajar, melayani, dan menikmati
-                kebersamaan.
-              </p>
+                <span className="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
 
             </div>
 
-            <Link
-              href="/kegiatan"
-              className="shrink-0 text-sm font-medium text-[#6F503B] transition duration-300 hover:text-[#8B7355]"
-            >
-              Lihat semua kegiatan →
-            </Link>
-
-          </div>
+          </ScrollReveal>
 
 
-          {/* =================================================
-              CARDS KEGIATAN
-          ================================================== */}
+          {/* CARDS */}
           <div className="mt-12 grid gap-7 md:grid-cols-2">
 
-            {/* =================================================
-                PA RUTIN
-            ================================================== */}
-            <Link
-              href="/kegiatan"
-              className="group block overflow-hidden rounded-2xl border border-[#DED7CE] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
-            >
+            {/* PA RUTIN */}
+            <ScrollReveal delay={0}>
 
-              <div className="aspect-[16/9] overflow-hidden bg-[#E6DED3]">
+              <Link
+                href="/kegiatan"
+                className="group block overflow-hidden rounded-[1.5rem] border border-[#DED7CE] bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(74,52,38,0.12)]"
+              >
 
-                <Image
-                  src="/images/pa-pemuda.png"
-                  alt="Ibadah PA Rutin Pemuda GKSBS Gunung Pasir Jaya"
-                  width={1200}
-                  height={675}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
+                <div className="aspect-[16/9] overflow-hidden bg-[#E6DED3]">
 
-              </div>
+                  <Image
+                    src="/images/pa-pemuda.png"
+                    alt="Ibadah PA Rutin Pemuda GKSBS Gunung Pasir Jaya"
+                    width={1200}
+                    height={675}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+                  />
 
-              <div className="p-7">
+                </div>
 
-                <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#8B7355]">
-                  Kegiatan Rutin
-                </p>
 
-                <h3 className="mt-3 font-heading text-3xl">
-                  Ibadah PA Rutin
-                </h3>
+                <div className="p-7 sm:p-8">
 
-                <p className="mt-3 text-sm leading-7 text-[#6F6860]">
-                  Persekutuan rutin untuk mendalami firman Tuhan,
-                  berdiskusi, dan bertumbuh bersama dalam iman.
-                </p>
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#8B7355]">
+                    Kegiatan Rutin
+                  </p>
 
-                <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#6F503B] transition duration-300 group-hover:text-[#8B7355]">
-                  Lihat kegiatan
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
+                  <h3 className="mt-3 font-heading text-3xl">
+                    Ibadah PA Rutin
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-7 text-[#6F6860]">
+                    Persekutuan rutin untuk mendalami firman Tuhan,
+                    berdiskusi, dan bertumbuh bersama dalam iman.
+                  </p>
+
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#6F503B] transition-colors duration-300 group-hover:text-[#8B7355]">
+                    Lihat kegiatan
+
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                      →
+                    </span>
                   </span>
-                </span>
 
-              </div>
+                </div>
 
-            </Link>
+              </Link>
+
+            </ScrollReveal>
 
 
-            {/* =================================================
-                NATAL
-            ================================================== */}
-            <Link
-              href="/kegiatan"
-              className="group block overflow-hidden rounded-2xl border border-[#DED7CE] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
-            >
+            {/* NATAL */}
+            <ScrollReveal delay={150}>
 
-              <div className="aspect-[16/9] overflow-hidden bg-[#E6DED3]">
+              <Link
+                href="/kegiatan"
+                className="group block overflow-hidden rounded-[1.5rem] border border-[#DED7CE] bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(74,52,38,0.12)]"
+              >
 
-                <Image
-                  src="/images/natal-gabungan-2026.png"
-                  alt="Ibadah Natal Pemuda Gabungan 2026"
-                  width={1200}
-                  height={675}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
+                <div className="aspect-[16/9] overflow-hidden bg-[#E6DED3]">
 
-              </div>
+                  <Image
+                    src="/images/natal-gabungan-2026.png"
+                    alt="Ibadah Natal Pemuda Gabungan 2026"
+                    width={1200}
+                    height={675}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+                  />
 
-              <div className="p-7">
+                </div>
 
-                <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#8B7355]">
-                  Agenda
-                </p>
 
-                <h3 className="mt-3 font-heading text-3xl">
-                  Youth GKSBS Klasis Pugung Raharjo Christmas Celebration 2026
-                </h3>
+                <div className="p-7 sm:p-8">
 
-                <p className="mt-3 text-sm leading-7 text-[#6F6860]">
-                  Perayaan Natal bersama sebagai momen untuk
-                  merayakan kasih Kristus dan mempererat
-                  persaudaraan antar pemuda.
-                </p>
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#8B7355]">
+                    Agenda
+                  </p>
 
-                <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#6F503B] transition duration-300 group-hover:text-[#8B7355]">
-                  Lihat kegiatan
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
+                  <h3 className="mt-3 font-heading text-3xl">
+                    Youth GKSBS Klasis Pugung Raharjo Christmas Celebration 2026
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-7 text-[#6F6860]">
+                    Perayaan Natal bersama sebagai momen untuk
+                    merayakan kasih Kristus dan mempererat
+                    persaudaraan antar pemuda.
+                  </p>
+
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#6F503B] transition-colors duration-300 group-hover:text-[#8B7355]">
+                    Lihat kegiatan
+
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                      →
+                    </span>
                   </span>
-                </span>
 
-              </div>
+                </div>
 
-            </Link>
+              </Link>
+
+            </ScrollReveal>
 
           </div>
 
@@ -291,7 +350,7 @@ export default function HomePage() {
 
 
       {/* =====================================================
-          DOKUMENTASI PREVIEW
+          DOKUMENTASI
       ====================================================== */}
       <DocumentationPreview />
 
@@ -299,9 +358,8 @@ export default function HomePage() {
       {/* =====================================================
           CONTACT CTA
       ====================================================== */}
-      <section className="relative overflow-hidden px-6 py-24 text-center sm:px-10 lg:px-16">
+      <section className="relative overflow-hidden px-6 py-28 text-center sm:px-10 lg:px-12 xl:px-16">
 
-        {/* Background Image */}
         <Image
           src="/images/beranda.jpeg"
           alt=""
@@ -309,39 +367,50 @@ export default function HomePage() {
           className="object-cover"
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-black/50" />
 
-        {/* Content */}
-        <div className="relative mx-auto max-w-3xl">
 
-          <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-white/80">
-            COME AND JOIN US!
-          </p>
+        <ScrollReveal>
 
-          <h2 className="font-heading text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
-            Mari bertumbuh
-            <br />
+          <div className="relative mx-auto max-w-3xl">
 
-            <span className="italic text-white/85">
-              dan melayani bersama.
-            </span>
-          </h2>
+            <p className="mb-5 text-sm font-medium uppercase tracking-[0.3em] text-white/80">
+              COME AND JOIN US!
+            </p>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
-            Ingin mengenal lebih dekat atau terlibat dalam
-            kegiatan Youth GKSBS Gunung Pasir Jaya?
-            Kami dengan senang hati menyambutmu.
-          </p>
 
-          <Link
-            href="/kontak"
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-sm font-medium text-[#6F503B] transition duration-300 hover:bg-[#F7F3EC]"
-          >
-            HUBUNGI KAMI
-          </Link>
+            <h2 className="font-heading text-4xl leading-[1.08] text-white sm:text-5xl lg:text-6xl">
+              Every gathering
 
-        </div>
+              <br />
+
+              <span className="italic text-white/85">
+                is a space to grow.
+              </span>
+            </h2>
+
+
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
+              Ingin mengenal lebih dekat atau terlibat dalam
+              kegiatan Youth GKSBS Gunung Pasir Jaya?
+              Kami dengan senang hati menyambutmu.
+            </p>
+
+
+            <Link
+              href="/kontak"
+              className="group mt-9 inline-flex items-center justify-center gap-2 rounded-lg bg-white px-7 py-3.5 text-sm font-medium text-[#6F503B] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F7F3EC] hover:shadow-md"
+            >
+              HUBUNGI KAMI
+
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
+
+          </div>
+
+        </ScrollReveal>
 
       </section>
 
@@ -362,11 +431,10 @@ function DocumentationPreview() {
       images: [
         "/images/1a.jpeg",
         "/images/1b.jpeg",
-        "/images/1c.jpg",
-        "/images/1d.jpg",
-        "/images/1e.jpg",
+        "/images/1c.jpeg",
       ],
     },
+
     {
       title: "Makrab Youth GKSBS Gunung Pasir Jaya 4 Juli 2026",
       images: [
@@ -379,55 +447,84 @@ function DocumentationPreview() {
     },
   ];
 
-  return (
-    <section className="bg-white px-6 py-20 sm:px-10 lg:px-16">
-      <div className="mx-auto max-w-7xl">
 
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+  return (
+    <section className="bg-white px-6 py-24 sm:px-10 lg:px-12 xl:px-16">
+
+      <div className="mx-auto max-w-[1560px]">
+
+        <div className="grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:items-center xl:gap-28">
 
           {/* TEXT */}
-          <div className="max-w-xl">
+          <ScrollReveal>
 
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-              Dokumentasi
-            </p>
+            <div className="max-w-xl">
 
-            <h2 className="font-heading text-4xl leading-tight sm:text-5xl lg:text-6xl">
-              Momen yang
-              <br />
+              <div className="mb-5 flex items-center gap-3">
 
-              <span className="italic text-[#8B7355]">
-                kami lalui bersama.
-              </span>
-            </h2>
+                <div className="h-px w-10 bg-[#BFA98D]" />
 
-            <p className="mt-6 text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
-              Setiap kegiatan menyimpan cerita, kebersamaan,
-              dan pengalaman yang menjadi bagian dari perjalanan
-              Youth GKSBS Gunung Pasir Jaya.
-            </p>
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                  Dokumentasi
+                </p>
 
-            <Link
-              href="/dokumentasi"
-              className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-[#6F503B] transition duration-300 hover:text-[#8B7355]"
-            >
-              Lihat dokumentasi
-              <span aria-hidden="true">→</span>
-            </Link>
+              </div>
 
-          </div>
+
+              <h2 className="font-heading text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
+                Moments we
+                <br />
+
+                <span className="italic text-[#8B7355]">
+                  shared together.
+                </span>
+              </h2>
+
+
+              <p className="mt-6 text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
+                Setiap kegiatan menyimpan cerita, kebersamaan,
+                dan pengalaman yang menjadi bagian dari perjalanan
+                Youth GKSBS Gunung Pasir Jaya.
+              </p>
+
+
+              <Link
+                href="/dokumentasi"
+                className="group mt-8 inline-flex items-center gap-3 text-sm font-medium text-[#6F503B] transition-colors duration-300 hover:text-[#8B7355]"
+              >
+                Lihat dokumentasi
+
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </Link>
+
+            </div>
+
+          </ScrollReveal>
 
 
           {/* DOCUMENTATION CARDS */}
           <div className="grid gap-6 sm:grid-cols-2">
 
             {documentationItems.map((item, index) => (
-              <DocumentationCard
+
+              <ScrollReveal
                 key={item.title}
-                title={item.title}
-                images={item.images}
-                offset={index === 1}
-              />
+                delay={index * 150}
+              >
+
+                <DocumentationCard
+                  title={item.title}
+                  images={item.images}
+                  offset={index === 1}
+                />
+
+              </ScrollReveal>
+
             ))}
 
           </div>
@@ -435,6 +532,7 @@ function DocumentationPreview() {
         </div>
 
       </div>
+
     </section>
   );
 }
@@ -456,6 +554,7 @@ function DocumentationCard({
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+
   useEffect(() => {
 
     const interval = setInterval(() => {
@@ -476,7 +575,7 @@ function DocumentationCard({
   return (
     <Link
       href="/dokumentasi"
-      className={`group block overflow-hidden rounded-2xl border border-[#DED7CE] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${
+      className={`group block overflow-hidden rounded-[1.5rem] border border-[#DED7CE] bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(74,52,38,0.12)] ${
         offset ? "sm:mt-10" : ""
       }`}
     >
@@ -505,11 +604,12 @@ function DocumentationCard({
 
 
       {/* TITLE */}
-      <div className="p-5">
+      <div className="p-5 sm:p-6">
 
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#8B7355]">
           Dokumentasi
         </p>
+
 
         <h3 className="mt-2 font-heading text-2xl leading-tight">
           {title}
@@ -536,7 +636,7 @@ function DocumentationCard({
 
 
         {/* LINK INDICATOR */}
-        <div className="mt-4 flex items-center gap-2 text-sm font-medium text-[#6F503B] transition duration-300 group-hover:text-[#8B7355]">
+        <div className="mt-4 flex items-center gap-2 text-sm font-medium text-[#6F503B] transition-colors duration-300 group-hover:text-[#8B7355]">
 
           Lihat dokumentasi
 

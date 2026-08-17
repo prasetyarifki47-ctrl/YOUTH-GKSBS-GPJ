@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Cormorant_Garamond } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import PageTransition from "@/components/page-transition";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
   subsets: ["latin"],
 });
 
@@ -27,12 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body
-        className={`${inter.variable} ${cormorant.variable} antialiased`}
-      >
+      <body className={`${inter.variable} antialiased`}>
         <Navbar />
 
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
 
         <Footer />
       </body>

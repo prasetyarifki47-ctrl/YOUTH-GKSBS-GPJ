@@ -31,32 +31,32 @@ export default function Navbar() {
       {/* =====================================================
           NAVBAR
       ====================================================== */}
-      <nav className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 sm:px-10 lg:px-16">
+      <nav className="mx-auto flex h-24 max-w-[1800px] items-center justify-between px-6 sm:px-10 lg:px-16 xl:px-20">
 
         {/* =================================================
             LOGO & BRAND
         ================================================== */}
         <Link
           href="/"
-          className="flex items-center gap-3"
+          className="flex items-center gap-4"
           onClick={() => setIsOpen(false)}
         >
           <Image
             src="/images/logo.png"
             alt="Youth GKSBS"
-            width={100}
-            height={100}
-            className="h-20 w-20 object-contain"
+            width={120}
+            height={120}
+            className="h-24 w-24 object-contain"
             priority
           />
 
           <div className="flex flex-col leading-none">
 
-            <span className="text-base font-medium tracking-wide text-white sm:text-lg">
+            <span className="text-lg font-semibold tracking-[0.02em] text-white sm:text-xl">
               YOUTH GKSBS GPJ
             </span>
 
-            <span className="mt-1 text-[9px] uppercase tracking-[0.25em] text-[#C7A77B] sm:text-[10px]">
+            <span className="mt-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#E8DCC8] sm:text-xs">
               Gunung Pasir Jaya
             </span>
 
@@ -67,7 +67,7 @@ export default function Navbar() {
         {/* =================================================
             DESKTOP NAVIGATION
         ================================================== */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-10 md:flex">
 
           {navItems.map((item) => {
             const active = isActive(item.href);
@@ -77,7 +77,7 @@ export default function Navbar() {
                 key={item.name}
                 href={item.href}
                 className={`
-                  relative text-sm transition duration-300
+                  relative text-base transition duration-300
                   ${
                     active
                       ? "font-medium text-[#C7A77B]"
@@ -114,7 +114,7 @@ export default function Navbar() {
           aria-label="Buka menu"
           aria-expanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
-          className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#C7A77B]/40 text-white transition hover:bg-white/5 md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#C7A77B]/40 text-white transition hover:bg-white/5 md:hidden"
         >
           <div className="flex flex-col gap-1.5">
 
@@ -163,7 +163,7 @@ export default function Navbar() {
         `}
       >
 
-        <div className="mx-auto max-w-7xl px-6 py-4 sm:px-10">
+        <div className="mx-auto max-w-[1560px] px-6 py-4 sm:px-10 lg:px-16">
 
           <div className="flex flex-col">
 
@@ -176,7 +176,7 @@ export default function Navbar() {
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={`
-                    border-b border-white/10 py-4 text-sm
+                    border-b border-white/10 py-4 text-base
                     transition duration-300
                     ${
                       active

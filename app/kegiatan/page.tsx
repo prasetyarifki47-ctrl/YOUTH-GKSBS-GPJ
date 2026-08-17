@@ -1,52 +1,52 @@
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+"use client";
+
+import Image from "next/image";
+import ScrollReveal from "@/components/scroll-reveal";
 
 export default function KegiatanPage() {
   return (
     <main className="min-h-screen bg-[#F7F3EC] text-[#2E2A26]">
 
       {/* =====================================================
-          NAVBAR
-      ====================================================== */}
-      <Navbar />
-
-
-      {/* =====================================================
           HEADER
       ====================================================== */}
-      <section className="relative overflow-hidden px-6 pb-16 pt-36 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="relative overflow-hidden px-6 pb-20 pt-36 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1560px]">
 
-          <div className="max-w-3xl">
+          <ScrollReveal>
+            <div className="max-w-4xl">
 
-            {/* Label */}
-            <div className="mb-5 flex items-center gap-3">
-              <div className="h-px w-10 bg-[#8B7355]" />
+              {/* LABEL */}
+              <div className="mb-6 flex items-center gap-3">
 
-              <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#8B7355] sm:text-sm">
-                Kegiatan
+                <div className="h-px w-10 bg-[#BFA98D]" />
+
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                  Kegiatan
+                </p>
+
+              </div>
+
+
+              {/* HEADING */}
+              <h1 className="font-heading text-5xl leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+                Gathered
+                <br />
+
+                <span className="italic text-[#8B7355]">
+                  to grow.
+                </span>
+              </h1>
+
+
+              {/* DESCRIPTION */}
+              <p className="mt-7 max-w-2xl text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
+                Ruang bagi pemuda-pemudi untuk bersekutu, bertumbuh dalam
+                iman, dan melayani bersama.
               </p>
+
             </div>
-
-
-            {/* Heading */}
-            <h1 className="font-heading text-5xl leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-              Bertemu,
-              <br />
-
-              <span className="italic text-[#8B7355]">
-                bertumbuh bersama.
-              </span>
-            </h1>
-
-
-            {/* Description */}
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[#6F6860] sm:text-lg">
-              Ruang bagi pemuda-pemudi untuk bersekutu, bertumbuh dalam iman,
-              dan melayani bersama.
-            </p>
-
-          </div>
+          </ScrollReveal>
 
         </div>
       </section>
@@ -55,240 +55,312 @@ export default function KegiatanPage() {
       {/* =====================================================
           AGENDA
       ====================================================== */}
-      <section className="bg-white px-6 py-20 sm:px-10 lg:px-16">
+      <section className="relative overflow-hidden px-6 pb-20 pt-36 sm:px-10 lg:px-16">
+  <div className="mx-auto max-w-[1560px]">
 
-        <div className="mx-auto max-w-7xl">
+          {/* SECTION HEADING */}
+          <ScrollReveal>
 
-          {/* Section Label */}
-          <div className="mb-10">
+            <div className="mb-12 flex items-end justify-between gap-6">
 
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-[#8B7355]">
-              Agenda
-            </p>
+              <div>
 
-          </div>
+                <div className="mb-5 flex items-center gap-3">
+
+                  <div className="h-px w-10 bg-[#BFA98D]" />
+
+                  <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                    Agenda
+                  </p>
+
+                </div>
+
+                <h2 className="font-heading text-4xl leading-tight sm:text-5xl">
+                  Kegiatan yang akan datang.
+                </h2>
+
+              </div>
+
+            </div>
+
+          </ScrollReveal>
 
 
           {/* =================================================
               CARD GRID
           ================================================== */}
-          <div className="grid gap-7 md:grid-cols-2">
+          <div className="grid gap-8 lg:grid-cols-2">
 
 
             {/* =================================================
                 CARD 1 — PA RUTIN
             ================================================== */}
-            <article className="overflow-hidden rounded-2xl border border-[#DED7CE] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <ScrollReveal delay={0}>
 
-              {/* Image */}
-              <div className="aspect-[16/9] overflow-hidden bg-[#E6DED3]">
+              <article className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-[#DED7CE] bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
 
-                <img
-                  src="/images/pa-pemuda.png"
-                  alt="Ibadah PA Rutin Pemuda GKSBS Gunung Pasir Jaya"
-                  className="h-full w-full object-cover transition duration-500 hover:scale-105"
-                />
+                {/* IMAGE */}
+                <div className="relative aspect-[16/9] overflow-hidden bg-[#E6DED3]">
 
-              </div>
-
-
-              {/* Content */}
-              <div className="flex min-h-[390px] flex-col p-7">
-
-                <h3 className="font-heading text-3xl">
-                  Ibadah PA Rutin
-                </h3>
-
-
-                <p className="mt-3 leading-7 text-[#6F6860]">
-                  Persekutuan rutin untuk mendalami firman Tuhan,
-                  berdiskusi, dan bertumbuh bersama dalam iman.
-                </p>
-
-
-                {/* Info */}
-                <div className="mt-6 space-y-3 text-sm text-[#6F6860]">
-
-                  {/* Hari */}
-                  <div className="flex items-center gap-3">
-
-                    {/* SVG Clock */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-[#8B7355]"
-                    >
-                      <circle cx="12" cy="12" r="9" />
-                      <polyline points="12 7 12 12 15 14" />
-                    </svg>
-
-                    <span>
-                      Setiap Sabtu
-                    </span>
-
-                  </div>
-
-
-                  {/* Lokasi */}
-                  <div className="flex items-center gap-3">
-
-                    {/* SVG Google Maps Style Pin */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-[#8B7355]"
-                    >
-                      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
-                      <circle cx="12" cy="10" r="2.5" />
-                    </svg>
-
-                    <span>
-                      Menyesuaikan Jadwal
-                    </span>
-
-                  </div>
+                  <Image
+                    src="/images/pa-pemuda.png"
+                    alt="Ibadah PA Rutin Pemuda GKSBS Gunung Pasir Jaya"
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
 
                 </div>
 
 
-                {/* Button */}
-                <a
-                  href="https://bit.ly/Jadwal-PA-Pemuda_dan_Kolekte-Ibadah-Minggu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-auto flex w-full items-center justify-center rounded-lg border border-[#BFA98D] px-5 py-3 text-sm font-medium text-[#6F503B] transition duration-300 hover:bg-[#F7F3EC]"
-                >
-                  Lihat Jadwal PA
-                </a>
+                {/* CONTENT */}
+                <div className="flex flex-1 flex-col p-7 sm:p-8">
 
-              </div>
+                  {/* CATEGORY */}
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#8B7355]">
+                    Kegiatan Rutin
+                  </p>
 
-            </article>
+
+                  {/* TITLE */}
+                  <h3 className="mt-3 font-heading text-3xl leading-tight sm:text-4xl">
+                    Ibadah PA Rutin
+                  </h3>
+
+
+                  {/* DESCRIPTION */}
+                  <p className="mt-4 text-justify text-sm leading-7 text-[#6F6860] sm:text-base">
+                    Persekutuan rutin untuk mendalami firman Tuhan,
+                    berdiskusi, dan bertumbuh bersama dalam iman.
+                  </p>
+
+
+                  {/* INFO */}
+                  <div className="mt-7 space-y-4 text-sm text-[#6F6860]">
+
+                    {/* WAKTU */}
+                    <div className="flex items-center gap-3">
+
+                      <ClockIcon />
+
+                      <span>
+                        Setiap Sabtu
+                      </span>
+
+                    </div>
+
+
+                    {/* LOKASI */}
+                    <div className="flex items-center gap-3">
+
+                      <LocationIcon />
+
+                      <span>
+                        Menyesuaikan Jadwal
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                  {/* BUTTON */}
+                  <a
+                    href="https://bit.ly/Jadwal-PA-Pemuda_dan-Kolekte-Ibadah-Minggu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-[#BFA98D] px-5 py-3.5 text-sm font-medium text-[#6F503B] transition-all duration-300 hover:border-[#8B7355] hover:bg-[#F7F3EC]"
+                  >
+                    Lihat Jadwal PA
+                  </a>
+
+                </div>
+
+              </article>
+
+            </ScrollReveal>
 
 
             {/* =================================================
                 CARD 2 — NATAL PEMUDA GABUNGAN
             ================================================== */}
-            <article className="overflow-hidden rounded-2xl border border-[#DED7CE] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <ScrollReveal delay={150}>
 
-              {/* Image */}
-              <div className="aspect-[16/9] overflow-hidden bg-[#E6DED3]">
+              <article className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-[#DED7CE] bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
 
-                <img
-                  src="/images/natal-gabungan-2026.png"
-                  alt="Ibadah Natal Pemuda Gabungan 2026"
-                  className="h-full w-full object-cover transition duration-500 hover:scale-105"
-                />
+                {/* IMAGE */}
+                <div className="relative aspect-[16/9] overflow-hidden bg-[#E6DED3]">
 
-              </div>
-
-
-              {/* Content */}
-              <div className="flex min-h-[390px] flex-col p-7">
-
-                <h3 className="font-heading text-3xl">
-                  Youth GKSBS Klasis Pugung Raharjo Christmas Celebration 2026
-                </h3>
-
-
-                <p className="mt-3 leading-7 text-[#6F6860]">
-                  Perayaan Natal bersama sebagai momen untuk merayakan
-                  kasih Kristus dan mempererat persaudaraan antar pemuda-pemudi.
-                </p>
-
-
-                {/* Info */}
-                <div className="mt-6 space-y-3 text-sm text-[#6F6860]">
-
-                  {/* Tanggal */}
-                  <div className="flex items-center gap-3">
-
-                    {/* SVG Clock */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-[#8B7355]"
-                    >
-                      <circle cx="12" cy="12" r="9" />
-                      <polyline points="12 7 12 12 15 14" />
-                    </svg>
-
-                    <span>
-                      To be Announced
-                    </span>
-
-                  </div>
-
-
-                  {/* Lokasi */}
-                  <div className="flex items-center gap-3">
-
-                    {/* SVG Google Maps Style Pin */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-[#8B7355]"
-                    >
-                      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
-                      <circle cx="12" cy="10" r="2.5" />
-                    </svg>
-
-                    <span>
-                      GKSBS Gunung Pasir Jaya (Gloria)
-                    </span>
-
-                  </div>
+                  <Image
+                    src="/images/natal-gabungan-2026.png"
+                    alt="Ibadah Natal Pemuda Gabungan 2026"
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
 
                 </div>
 
 
-                {/* Button */}
-                <a
-                  href="LINK_SPS_JADWAL_PA"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-auto flex w-full items-center justify-center rounded-lg border border-[#BFA98D] px-5 py-3 text-sm font-medium text-[#6F503B] transition duration-300 hover:bg-[#F7F3EC]"
-                >
-                  Lihat Detail
-                </a>
+                {/* CONTENT */}
+                <div className="flex flex-1 flex-col p-7 sm:p-8">
 
-              </div>
+                  {/* CATEGORY */}
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#8B7355]">
+                    Agenda
+                  </p>
 
-            </article>
+
+                  {/* TITLE */}
+                  <h3 className="mt-3 font-heading text-3xl leading-tight sm:text-4xl">
+                    YOUTH GKSBS Klasis Pugung Raharjo Christmas Celebration 2026
+                  </h3>
+
+
+                  {/* DESCRIPTION */}
+                  <p className="mt-4 text-justify text-sm leading-7 text-[#6F6860] sm:text-base">
+                    Perayaan Natal bersama sebagai momen untuk merayakan
+                    kasih Kristus dan mempererat persaudaraan antar
+                    pemuda-pemudi.
+                  </p>
+
+
+                  {/* INFO */}
+                  <div className="mt-7 space-y-4 text-sm text-[#6F6860]">
+
+                    {/* WAKTU */}
+                    <div className="flex items-center gap-3">
+
+                      <ClockIcon />
+
+                      <span>
+                        To be announced
+                      </span>
+
+                    </div>
+
+
+                    {/* LOKASI */}
+                    <div className="flex items-center gap-3">
+
+                      <LocationIcon />
+
+                      <span>
+                        GKSBS Gunung Pasir Jaya (Gloria)
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                  {/* BUTTON */}
+                  <a
+                    href="#"
+                    className="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-[#BFA98D] px-5 py-3.5 text-sm font-medium text-[#6F503B] transition-all duration-300 hover:border-[#8B7355] hover:bg-[#F7F3EC]"
+                  >
+                    Lihat Detail
+                  </a>
+
+                </div>
+
+              </article>
+
+            </ScrollReveal>
 
           </div>
 
         </div>
 
       </section>
+
+
+      {/* =====================================================
+          BOTTOM CTA
+      ====================================================== */}
+      <section className="px-6 py-24 sm:px-10 lg:px-16">
+
+        <div className="mx-auto max-w-[1560px]">
+
+          <ScrollReveal>
+
+            <div className="rounded-[1.5rem] border border-[#DED7CE] bg-[#4A3426] px-8 py-14 text-center sm:px-12">
+
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#D8C7B3]">
+                COME AND JOIN US!
+              </p>
+
+              <h2 className="mx-auto mt-5 max-w-3xl font-heading text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
+                Every gathering
+                <span className="italic text-[#D8C7B3]">
+                  <br />is a space to grow.
+                </span>
+              </h2>
+
+              <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">
+                Ikuti berbagai kegiatan Youth GKSBS Gunung Pasir Jaya
+                dan mari berjalan bersama dalam iman, pelayanan,
+                dan persaudaraan.
+              </p>
+
+            </div>
+
+          </ScrollReveal>
+
+        </div>
+
+      </section>
+
     </main>
+  );
+}
+
+
+/* ============================================================
+   CLOCK ICON
+============================================================ */
+
+function ClockIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="shrink-0 text-[#8B7355]"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <polyline points="12 7 12 12 15 14" />
+    </svg>
+  );
+}
+
+
+/* ============================================================
+   LOCATION ICON
+============================================================ */
+
+function LocationIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="shrink-0 text-[#8B7355]"
+      aria-hidden="true"
+    >
+      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
   );
 }

@@ -1,228 +1,216 @@
-import Navbar from "@/components/navbar";
+"use client";
+
+import ScrollReveal from "@/components/scroll-reveal";
 
 export default function TentangPage() {
   return (
     <main className="min-h-screen bg-white text-[#2E2A26]">
-      <Navbar />
 
       {/* =====================================================
-          01 — TENTANG KAMI
+          TENTANG KAMI
       ====================================================== */}
-      <section className="px-6 pb-20 pt-32 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="px-6 pb-24 pt-36 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1560px]">
 
-          {/* INTRO */}
-          <div className="max-w-3xl">
+          <ScrollReveal>
+            <div className="max-w-4xl">
 
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-              1
-            </p>
+              <div className="mb-6 flex items-center gap-3">
+                <div className="h-px w-10 bg-[#BFA98D]" />
 
-            <h1 className="font-heading text-5xl leading-tight sm:text-6xl">
-              Tentang Kami
-            </h1>
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                  1
+                </p>
+              </div>
 
-            <p className="mt-6 text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
-              Youth GKSBS Gunung Pasir Jaya merupakan wadah persekutuan
-              pemuda-pemudi untuk bertumbuh dalam iman, membangun persaudaraan,
-              mengembangkan talenta, dan melayani bersama.
-            </p>
+              <h1 className="font-heading text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+                Tentang Kami
+              </h1>
 
-          </div>
+              <p className="mt-7 max-w-3xl text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
+                Youth GKSBS Gunung Pasir Jaya merupakan wadah persekutuan
+                pemuda-pemudi untuk bertumbuh dalam iman, membangun
+                persaudaraan, mengembangkan talenta, dan melayani bersama.
+              </p>
+
+            </div>
+          </ScrollReveal>
 
 
           {/* =================================================
               VISI & MISI
           ================================================== */}
-          <div className="mt-16 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="mt-16 grid gap-7 lg:grid-cols-[0.85fr_1.15fr]">
 
-            {/* =========================
-                VISI
-            ========================== */}
-            <div className="rounded-2xl border border-[#DED7CE] bg-[#F7F3EC] p-8 sm:p-10">
+            {/* VISI */}
+            <ScrollReveal>
+              <div className="h-full rounded-[1.5rem] border border-[#DED7CE] bg-[#F7F3EC] p-8 sm:p-10">
 
-              <p className="text-sm font-medium uppercase tracking-[0.25em] text-[#8B7355]">
-                Visi
-              </p>
+                <p className="text-sm font-medium uppercase tracking-[0.25em] text-[#8B7355]">
+                  Visi
+                </p>
 
-              <h2 className="mt-5 font-heading text-4xl leading-tight sm:text-5xl">
-                Bertumbuh dalam iman,
-                <br />
-                <span className="italic text-[#8B7355]">
-                  melayani bersama.
-                </span>
-              </h2>
+                <h2 className="mt-6 font-heading text-4xl leading-[1.08] sm:text-5xl">
+                  Bertumbuh dalam iman,
+                  <br />
 
-              <p className="mt-6 text-justify text-sm leading-7 text-[#6F6860] sm:text-base">
-                Menjadi persekutuan pemuda-pemudi yang bertumbuh dalam iman kepada
-                Kristus, membangun persaudaraan, mengembangkan talenta, dan
-                menghadirkan pelayanan yang berdampak bagi gereja serta
-                sesama.
-              </p>
-
-            </div>
-
-
-            {/* =========================
-                MISI
-            ========================== */}
-            <div className="rounded-2xl border border-[#DED7CE] bg-white p-8 sm:p-10">
-
-              <p className="text-sm font-medium uppercase tracking-[0.25em] text-[#8B7355]">
-                Misi
-              </p>
-
-              <div className="mt-7 space-y-6">
-
-                {/* Misi 01 */}
-                <div className="flex gap-5">
-
-                  <span className="shrink-0 font-heading text-2xl text-[#BFA98D]">
-                    1
+                  <span className="italic text-[#8B7355]">
+                    melayani sesama.
                   </span>
+                </h2>
 
-                  <div>
-                    <h3 className="font-heading text-2xl">
-                      Bertumbuh dalam iman
-                    </h3>
+                <p className="mt-7 text-justify text-sm leading-7 text-[#6F6860] sm:text-base">
+                  Menjadi persekutuan pemuda-pemudi yang bertumbuh dalam iman
+                  kepada Kristus, membangun persaudaraan, mengembangkan talenta,
+                  dan menghadirkan pelayanan yang berdampak bagi gereja serta
+                  sesama.
+                </p>
 
-                    <p className="mt-2 text-sm leading-7 text-[#6F6860]">
-                      Membangun kehidupan rohani melalui firman Tuhan,
-                      doa, persekutuan, dan pembelajaran iman secara bersama.
-                    </p>
-                  </div>
+              </div>
+            </ScrollReveal>
+
+
+            {/* MISI */}
+            <ScrollReveal delay={150}>
+              <div className="h-full rounded-[1.5rem] border border-[#DED7CE] bg-white p-8 shadow-sm sm:p-10">
+
+                <p className="text-sm font-medium uppercase tracking-[0.25em] text-[#8B7355]">
+                  Misi
+                </p>
+
+                <div className="mt-8 space-y-7">
+
+                  <MissionItem
+                    number="1"
+                    title="Bertumbuh dalam iman"
+                  >
+                    Bertumbuh melalui firman Tuhan, doa, dan persekutuan.
+                  </MissionItem>
+
+                  <MissionItem
+                    number="2"
+                    title="Membangun persaudaraan"
+                  >
+                    Membangun persekutuan yang hangat, saling menerima, dan
+                    mendukung.
+                  </MissionItem>
+
+                  <MissionItem
+                    number="3"
+                    title="Mengembangkan talenta"
+                  >
+                    Mengembangkan dan menggunakan talenta untuk hal-hal yang
+                    membangun.
+                  </MissionItem>
+
+                  <MissionItem
+                    number="4"
+                    title="Melayani Tuhan dan sesama"
+                  >
+                    Melayani melalui keterlibatan dalam gereja dan kepedulian
+                    terhadap sesama.
+                  </MissionItem>
 
                 </div>
 
+              </div>
+            </ScrollReveal>
 
-                {/* Misi 02 */}
-                <div className="flex gap-5">
+          </div>
 
-                  <span className="shrink-0 font-heading text-2xl text-[#BFA98D]">
+        </div>
+      </section>
+
+
+      {/* =====================================================
+          SEJARAH SINGKAT
+      ====================================================== */}
+      <section className="bg-[#F7F3EC] px-6 py-24 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1560px]">
+
+          <ScrollReveal>
+            <div className="grid gap-10 lg:grid-cols-[0.35fr_1fr]">
+
+              <div>
+                <div className="flex items-center gap-3">
+
+                  <div className="h-px w-10 bg-[#BFA98D]" />
+
+                  <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
                     2
-                  </span>
-
-                  <div>
-                    <h3 className="font-heading text-2xl">
-                      Membangun persaudaraan
-                    </h3>
-
-                    <p className="mt-2 text-sm leading-7 text-[#6F6860]">
-                      Menciptakan persekutuan yang hangat, saling menerima,
-                      menghargai, mendukung, dan berjalan bersama sebagai
-                      satu keluarga.
-                    </p>
-                  </div>
+                  </p>
 
                 </div>
+              </div>
 
 
-                {/* Misi 03 */}
-                <div className="flex gap-5">
+              <div className="max-w-4xl">
 
-                  <span className="shrink-0 font-heading text-2xl text-[#BFA98D]">
-                    3
-                  </span>
+                <h2 className="font-heading text-5xl leading-[1.05] sm:text-6xl">
+                  Sejarah Singkat
+                </h2>
 
-                  <div>
-                    <h3 className="font-heading text-2xl">
-                      Mengembangkan talenta
-                    </h3>
+                <div className="mt-8 border-l-2 border-[#CDBDAA] pl-6 sm:pl-8">
 
-                    <p className="mt-2 text-sm leading-7 text-[#6F6860]">
-                      Mendorong setiap pemuda-pemudi untuk mengenali,
-                      mengembangkan, dan menggunakan talenta yang Tuhan
-                      berikan untuk hal-hal yang membangun.
-                    </p>
-                  </div>
-
-                </div>
-
-
-                {/* Misi 04 */}
-                <div className="flex gap-5">
-
-                  <span className="shrink-0 font-heading text-2xl text-[#BFA98D]">
-                    4
-                  </span>
-
-                  <div>
-                    <h3 className="font-heading text-2xl">
-                      Melayani Tuhan dan sesama
-                    </h3>
-
-                    <p className="mt-2 text-sm leading-7 text-[#6F6860]">
-                      Menghadirkan pelayanan yang nyata melalui keterlibatan
-                      dalam kehidupan gereja dan kepedulian terhadap sesama.
-                    </p>
-                  </div>
+                  <p className="text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
+                    Youth GKSBS Gunung Pasir Jaya terbentuk pada tahun 2000,
+                    dalam masa pendewasaan Gereja Kristen Sumatera Bagian
+                    Selatan (GKSBS) Gunung Pasir Jaya. Sejak saat itu, youth
+                    terus berkembang sebagai bagian dari kehidupan gereja
+                    melalui persekutuan, pelayanan, dan berbagai kegiatan
+                    bersama.
+                  </p>
 
                 </div>
 
               </div>
 
             </div>
-
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* =====================================================
-          02 — SEJARAH SINGKAT
-      ====================================================== */}
-      <section className="bg-[#F7F3EC] px-6 py-20 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
-
-          <div className="max-w-3xl">
-
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-              2
-            </p>
-
-            <h2 className="font-heading text-5xl leading-tight sm:text-6xl">
-              Sejarah Singkat
-            </h2>
-
-            <p className="mt-6 text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
-              Youth GKSBS Gunung Pasir Jaya terbentuk pada tahun 2000,
-              dalam masa pendewasaan Gereja Kristen Sumatera Bagian Selatan
-              (GKSBS) Gunung Pasir Jaya. Sejak saat itu, youth terus
-              berkembang sebagai bagian dari kehidupan gereja melalui
-              persekutuan, pelayanan, dan berbagai kegiatan bersama.
-            </p>
-
-          </div>
+          </ScrollReveal>
 
         </div>
       </section>
 
 
       {/* =====================================================
-          03 — STRUKTUR ORGANISASI
+          STRUKTUR ORGANISASI
       ====================================================== */}
-      <section className="px-6 py-20 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="px-6 py-24 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1560px]">
 
-          {/* Heading */}
-          <div className="max-w-3xl">
+          <ScrollReveal>
+            <div className="max-w-4xl">
 
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-              3
-            </p>
+              <div className="mb-6 flex items-center gap-3">
 
-            <h2 className="font-heading text-5xl leading-tight sm:text-6xl">
-              Struktur Organisasi <br />Periode 2025-2027 <br />(Servant Leadership)
-            </h2>
+                <div className="h-px w-10 bg-[#BFA98D]" />
 
-            <p className="mt-6 text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
-              Youth GKSBS Gunung Pasir Jaya berjalan bersama melalui
-              kepengurusan dan departemen yang saling mendukung dalam
-              pelayanan dan kehidupan persekutuan.
-            </p>
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                  3
+                </p>
 
-          </div>
+              </div>
+
+              <h2 className="font-heading text-5xl leading-[1.05] sm:text-6xl">
+                Struktur Organisasi
+              </h2>
+
+              <p className="mt-3 font-heading text-3xl italic text-[#8B7355] sm:text-4xl">
+                Periode 2025–2027
+              </p>
+
+              <p className="mt-3 font-medium text-[#6F503B]">
+                (Servant Leadership)
+              </p>
+
+              <p className="mt-6 max-w-3xl text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
+                Youth GKSBS Gunung Pasir Jaya berjalan bersama melalui
+                kepengurusan dan departemen yang saling mendukung dalam
+                pelayanan dan kehidupan persekutuan.
+              </p>
+
+            </div>
+          </ScrollReveal>
 
 
           {/* =================================================
@@ -230,125 +218,60 @@ export default function TentangPage() {
           ================================================== */}
           <div className="mt-20">
 
-            <h3 className="mb-10 text-center text-base font-medium uppercase tracking-[0.35em] text-[#8B7355] sm:text-lg">
-              Pengurus Inti
-            </h3>
+            <ScrollReveal>
+              <h3 className="mb-10 text-center text-sm font-medium uppercase tracking-[0.35em] text-[#8B7355] sm:text-base">
+                Pengurus Inti
+              </h3>
+            </ScrollReveal>
 
 
-            {/* Ketua & Wakil Ketua */}
-            <div className="flex flex-col items-center">
+            {/* KETUA & WAKIL */}
+            <ScrollReveal>
+              <div className="flex flex-col items-center">
 
-              {/* Ketua */}
-              <div className="w-full max-w-md rounded-2xl border border-[#DED7CE] bg-[#F7F3EC] px-8 py-8 text-center shadow-sm">
+                <OrganizationCard
+                  title="Ketua"
+                  name="Amsal Gaeldo Siadari"
+                  featured
+                />
 
-                <h4 className="font-heading text-3xl sm:text-4xl">
-                  Ketua
-                </h4>
+                <Connector />
 
-                <p className="mt-3 text-sm text-[#8B7355]">
-                  Amsal Gaeldo Siadari
-                </p>
+                <OrganizationCard
+                  title="Wakil Ketua"
+                  name="Rifki Prasetya"
+                  featured
+                />
 
-              </div>
-
-
-              {/* Connector */}
-              <div className="h-10 w-px bg-[#CDBDAA]" />
-
-
-              {/* Wakil Ketua */}
-              <div className="w-full max-w-md rounded-2xl border border-[#DED7CE] bg-[#F7F3EC] px-8 py-8 text-center shadow-sm">
-
-                <h4 className="font-heading text-3xl sm:text-4xl">
-                  Wakil Ketua
-                </h4>
-
-                <p className="mt-3 text-sm text-[#8B7355]">
-                  Rifki Prasetya
-                </p>
+                <Connector />
 
               </div>
+            </ScrollReveal>
 
 
-              {/* Connector */}
-              <div className="h-10 w-px bg-[#CDBDAA]" />
+            {/* SEKRETARIS & BENDAHARA */}
+            <div className="grid gap-7 md:grid-cols-2">
 
-            </div>
-
-
-            {/* Sekretaris & Bendahara */}
-            <div className="relative grid gap-6 md:grid-cols-2">
-
-              {/* Horizontal Connector */}
-              <div className="absolute left-1/2 top-0 hidden h-px w-[calc(100%-25%)] -translate-x-1/2 bg-[#CDBDAA] md:block" />
-
-
-              {/* SEKRETARIS */}
-              <div className="relative rounded-2xl border border-[#DED7CE] bg-white px-8 py-8 text-center shadow-sm">
-
-                <h4 className="font-heading text-3xl sm:text-4xl">
-                  Sekretaris
-                </h4>
-
-                <div className="mt-6 space-y-5">
-
-                  <div>
-                    <p className="text-sm font-medium text-[#6F503B]">
-                      Sekretaris 1
-                    </p>
-
-                    <p className="mt-1 text-sm text-[#8B7355]">
-                      Agni Dwi Yuanita
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-[#6F503B]">
-                      Sekretaris 2
-                    </p>
-
-                    <p className="mt-1 text-sm text-[#8B7355]">
-                      Aura Prise Kania
-                    </p>
-                  </div>
-
-                </div>
-
-              </div>
+              <ScrollReveal>
+                <OrganizationGroup
+                  title="Sekretaris"
+                  people={[
+                    ["Sekretaris 1", "Agni Dwi Yuanita"],
+                    ["Sekretaris 2", "Aura Prise Kania"],
+                  ]}
+                />
+              </ScrollReveal>
 
 
-              {/* BENDAHARA */}
-              <div className="relative rounded-2xl border border-[#DED7CE] bg-white px-8 py-8 text-center shadow-sm">
-
-                <h4 className="font-heading text-3xl sm:text-4xl">
-                  Bendahara
-                </h4>
-
-                <div className="mt-6 space-y-5">
-
-                  <div>
-                    <p className="text-sm font-medium text-[#6F503B]">
-                      Bendahara 1
-                    </p>
-
-                    <p className="mt-1 text-sm text-[#8B7355]">
-                      Siska Ervina Sari
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-[#6F503B]">
-                      Bendahara 2
-                    </p>
-
-                    <p className="mt-1 text-sm text-[#8B7355]">
-                      Eka Ratna Damayanti
-                    </p>
-                  </div>
-
-                </div>
-
-              </div>
+              <ScrollReveal delay={150}>
+                <OrganizationGroup
+                  title="Bendahara"
+                  people={[
+                    ["Bendahara 1", "Siska Ervina Sari"],
+                    ["Bendahara 2", "Eka Ratna Damayanti"],
+                  ]}
+                />
+              </ScrollReveal>
 
             </div>
 
@@ -360,217 +283,71 @@ export default function TentangPage() {
           ================================================== */}
           <div className="mt-24">
 
-            <h3 className="mb-10 text-center text-base font-medium uppercase tracking-[0.35em] text-[#8B7355] sm:text-lg">
-              Departemen
-            </h3>
+            <ScrollReveal>
+              <h3 className="mb-10 text-center text-sm font-medium uppercase tracking-[0.35em] text-[#8B7355] sm:text-base">
+                Departemen
+              </h3>
+            </ScrollReveal>
 
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-7 md:grid-cols-2">
 
               {/* PELAYANAN KHUSUS */}
-              <article className="rounded-2xl border border-[#DED7CE] bg-[#F7F3EC] p-8 shadow-sm">
-
-                <h4 className="font-heading text-3xl">
-                  Pelayanan Khusus
-                </h4>
-
-                <div className="mt-7 space-y-5 text-sm">
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Ade Krysando Ardilles
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Sekretaris Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Claudhea Angeliani
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Divisi Musik
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Heri Bertus
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Divisi WL
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Shela Bunga Nasrani
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Divisi Diakonia
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Ariel Redita Wijaya
-                    </p>
-                  </div>
-
-                </div>
-
-              </article>
+              <ScrollReveal>
+                <DepartmentCard
+                  title="Pelayanan Khusus"
+                  people={[
+                    ["Kepala Departemen", "Ade Krysando Ardilles"],
+                    ["Sekretaris Departemen", "Claudhea Angeliani"],
+                    ["Kepala Divisi Musik", "Heri Bertus"],
+                    ["Kepala Divisi Worship Leader", "Shela Bunga Nasrani"],
+                    ["Kepala Divisi Diakonia", "Ariel Redita Wijaya"],
+                  ]}
+                />
+              </ScrollReveal>
 
 
               {/* MULTIMEDIA */}
-              <article className="rounded-2xl border border-[#DED7CE] bg-[#F7F3EC] p-8 shadow-sm">
-
-                <h4 className="font-heading text-3xl">
-                  Multimedia
-                </h4>
-
-                <div className="mt-7 space-y-5 text-sm">
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Earnest Allodya Philein
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Sekretaris Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Hecekiel Mongoloi Siadari
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Divisi Desain
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Frisa
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Divisi Publikasi & Dokumentasi
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Tesalonika
-                    </p>
-                  </div>
-
-                </div>
-
-              </article>
+              <ScrollReveal delay={100}>
+                <DepartmentCard
+                  title="Multimedia"
+                  people={[
+                    ["Kepala Departemen", "Earnest Allodya Philein"],
+                    ["Sekretaris Departemen", "Hecekiel Mongoloi Siadari"],
+                    ["Kepala Divisi Desain", "Frisa"],
+                    [
+                      "Kepala Divisi Publikasi & Dokumentasi",
+                      "Tesalonika",
+                    ],
+                  ]}
+                />
+              </ScrollReveal>
 
 
               {/* KEWIRAUSAHAAN */}
-              <article className="rounded-2xl border border-[#DED7CE] bg-[#F7F3EC] p-8 shadow-sm">
-
-                <h4 className="font-heading text-3xl">
-                  Kewirausahaan
-                </h4>
-
-                <div className="mt-7 space-y-5 text-sm">
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Cristina
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Sekretaris Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Aryanti
-                    </p>
-                  </div>
-
-                </div>
-
-              </article>
+              <ScrollReveal delay={150}>
+                <DepartmentCard
+                  title="Kewirausahaan"
+                  people={[
+                    ["Kepala Departemen", "Cristina"],
+                    ["Sekretaris Departemen", "Aryanti"],
+                  ]}
+                />
+              </ScrollReveal>
 
 
               {/* OPERASIONAL */}
-              <article className="rounded-2xl border border-[#DED7CE] bg-[#F7F3EC] p-8 shadow-sm">
-
-                <h4 className="font-heading text-3xl">
-                  Operasional
-                </h4>
-
-                <div className="mt-7 space-y-5 text-sm">
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Geovani Nainggolan
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Sekretaris Departemen
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Dita Surya Atmaja
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Divisi Logistik
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Alfarel Mosses Putra
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#6F503B]">
-                      Kepala Divisi Akomodasi
-                    </p>
-
-                    <p className="mt-1 text-[#8B7355]">
-                      Putra
-                    </p>
-                  </div>
-
-                </div>
-
-              </article>
+              <ScrollReveal delay={200}>
+                <DepartmentCard
+                  title="Operasional"
+                  people={[
+                    ["Kepala Departemen", "Geovani Nainggolan"],
+                    ["Sekretaris Departemen", "Dita Surya Atmaja"],
+                    ["Kepala Divisi Logistik", "Alfarel Mosses Putra"],
+                    ["Kepala Divisi Akomodasi", "Putra"],
+                  ]}
+                />
+              </ScrollReveal>
 
             </div>
 
@@ -581,92 +358,59 @@ export default function TentangPage() {
 
 
       {/* =====================================================
-          04 — NILAI KAMI
+          NILAI KAMI
       ====================================================== */}
-      <section className="bg-[#F7F3EC] px-6 py-20 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-[#F7F3EC] px-6 py-24 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1560px]">
 
-          <div className="max-w-3xl">
+          <ScrollReveal>
+            <div className="max-w-4xl">
 
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-              4
-            </p>
+              <div className="mb-6 flex items-center gap-3">
 
-            <h2 className="font-heading text-5xl leading-tight sm:text-6xl">
-              Nilai Kami
-            </h2>
+                <div className="h-px w-10 bg-[#BFA98D]" />
 
-            <p className="mt-6 text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
-              Kami berusaha membangun persekutuan yang berlandaskan iman,
-              kasih, kebersamaan, pelayanan, dan pertumbuhan bersama.
-              Setiap kegiatan menjadi ruang untuk saling mendukung dan
-              menggunakan talenta yang Tuhan berikan.
-            </p>
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
+                  4
+                </p>
 
-          </div>
+              </div>
 
+              <h2 className="font-heading text-5xl leading-[1.05] sm:text-6xl">
+                Nilai Kami
+              </h2>
 
-          {/* Nilai */}
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-
-            {/* Iman */}
-            <div className="rounded-2xl border border-[#DED7CE] bg-white p-7">
-
-              <h3 className="font-heading text-2xl">
-                Iman
-              </h3>
-
-              <p className="mt-3 text-justify text-sm leading-7 text-[#6F6860]">
-                Bertumbuh dalam hubungan dengan Tuhan melalui firman,
-                doa, dan persekutuan.
+              <p className="mt-6 max-w-3xl text-justify text-base leading-8 text-[#6F6860] sm:text-lg">
+                Nilai yang menjadi dasar kami dalam bertumbuh,
+                membangun persekutuan, dan melayani bersama.
               </p>
 
             </div>
+          </ScrollReveal>
 
 
-            {/* Kasih */}
-            <div className="rounded-2xl border border-[#DED7CE] bg-white p-7">
+          {/* NILAI */}
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-              <h3 className="font-heading text-2xl">
-                Kasih
-              </h3>
+            <ValueCard
+              title="Iman"
+              description="Bertumbuh dalam firman, doa, dan persekutuan."
+            />
 
-              <p className="mt-3 text-justify text-sm leading-7 text-[#6F6860]">
-                Membangun hubungan yang saling menerima, menghargai,
-                dan mendukung.
-              </p>
+            <ValueCard
+              title="Kasih"
+              description="Saling menerima, menghargai, dan mendukung."
+            />
 
-            </div>
+            <ValueCard
+              title="Pelayanan"
+              description="Menggunakan talenta untuk melayani Tuhan dan sesama."
+            />
 
-
-            {/* Pelayanan */}
-            <div className="rounded-2xl border border-[#DED7CE] bg-white p-7">
-
-              <h3 className="font-heading text-2xl">
-                Pelayanan
-              </h3>
-
-              <p className="mt-3 text-justify text-sm leading-7 text-[#6F6860]">
-                Menggunakan waktu dan talenta untuk melayani Tuhan
-                dan sesama.
-              </p>
-
-            </div>
-
-
-            {/* Kebersamaan */}
-            <div className="rounded-2xl border border-[#DED7CE] bg-white p-7">
-
-              <h3 className="font-heading text-2xl">
-                Kebersamaan
-              </h3>
-
-              <p className="mt-3 text-justify text-sm leading-7 text-[#6F6860]">
-                Berjalan bersama sebagai satu keluarga dalam setiap
-                proses dan pelayanan.
-              </p>
-
-            </div>
+            <ValueCard
+              title="Kebersamaan"
+              description="Berjalan bersama sebagai satu keluarga."
+            />
 
           </div>
 
@@ -674,5 +418,199 @@ export default function TentangPage() {
       </section>
 
     </main>
+  );
+}
+
+
+/* ============================================================
+   MISSION ITEM
+============================================================ */
+
+function MissionItem({
+  number,
+  title,
+  children,
+}: {
+  number: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex gap-5">
+
+      <span className="shrink-0 font-heading text-3xl text-[#BFA98D]">
+        {number}
+      </span>
+
+      <div>
+
+        <h3 className="font-heading text-2xl sm:text-3xl">
+          {title}
+        </h3>
+
+        <p className="mt-2 text-sm leading-7 text-[#6F6860]">
+          {children}
+        </p>
+
+      </div>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   ORGANIZATION CARD
+============================================================ */
+
+function OrganizationCard({
+  title,
+  name,
+  featured = false,
+}: {
+  title: string;
+  name: string;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      className={`w-full max-w-md rounded-[1.5rem] border border-[#DED7CE] px-8 py-8 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-lg ${
+        featured ? "bg-[#F7F3EC]" : "bg-white"
+      }`}
+    >
+
+      <h4 className="font-heading text-3xl sm:text-4xl">
+        {title}
+      </h4>
+
+      <p className="mt-3 text-sm text-[#8B7355]">
+        {name}
+      </p>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   CONNECTOR
+============================================================ */
+
+function Connector() {
+  return (
+    <div className="h-10 w-px bg-[#CDBDAA]" />
+  );
+}
+
+
+/* ============================================================
+   ORGANIZATION GROUP
+============================================================ */
+
+function OrganizationGroup({
+  title,
+  people,
+}: {
+  title: string;
+  people: [string, string][];
+}) {
+  return (
+    <div className="rounded-[1.5rem] border border-[#DED7CE] bg-white p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-lg sm:p-10">
+
+      <h4 className="font-heading text-3xl sm:text-4xl">
+        {title}
+      </h4>
+
+      <div className="mt-7 space-y-6">
+
+        {people.map(([role, name]) => (
+          <div key={role}>
+
+            <p className="text-sm font-medium text-[#6F503B]">
+              {role}
+            </p>
+
+            <p className="mt-1 text-sm text-[#8B7355]">
+              {name}
+            </p>
+
+          </div>
+        ))}
+
+      </div>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   DEPARTMENT CARD
+============================================================ */
+
+function DepartmentCard({
+  title,
+  people,
+}: {
+  title: string;
+  people: [string, string][];
+}) {
+  return (
+    <article className="group rounded-[1.5rem] border border-[#DED7CE] bg-[#F7F3EC] p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-lg sm:p-9">
+
+      <h4 className="font-heading text-3xl sm:text-4xl">
+        {title}
+      </h4>
+
+      <div className="mt-7 space-y-6 text-sm">
+
+        {people.map(([role, name]) => (
+          <div key={role}>
+
+            <p className="font-medium text-[#6F503B]">
+              {role}
+            </p>
+
+            <p className="mt-1 text-[#8B7355]">
+              {name}
+            </p>
+
+          </div>
+        ))}
+
+      </div>
+
+    </article>
+  );
+}
+
+
+/* ============================================================
+   VALUE CARD
+============================================================ */
+
+function ValueCard({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  return (
+    <ScrollReveal>
+      <div className="group h-full rounded-[1.5rem] border border-[#DED7CE] bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-lg">
+
+        <div className="mb-5 h-px w-8 bg-[#BFA98D] transition-all duration-500 group-hover:w-12" />
+
+        <h3 className="font-heading text-3xl">
+          {title}
+        </h3>
+
+        <p className="mt-3 text-justify text-sm leading-7 text-[#6F6860]">
+          {description}
+        </p>
+
+      </div>
+    </ScrollReveal>
   );
 }
