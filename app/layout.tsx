@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -14,9 +14,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Youth GKSBS Gunung Pasir Jaya",
+  title: "Pemuda GKSBS GPJ",
   description:
-    "Website YouthGKSBS Gunung Pasir Jaya",
+    "Website Pemuda GKSBS Gunung Pasir Jaya — ruang untuk bertumbuh, melayani, dan berjalan bersama dalam Kristus.",
 };
 
 export default function RootLayout({
@@ -29,9 +29,8 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${cormorant.variable} antialiased`}
       >
+        <Navbar />
         {children}
-
-        <Footer />
       </body>
     </html>
   );
