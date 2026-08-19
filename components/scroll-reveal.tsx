@@ -13,7 +13,7 @@ type ScrollRevealProps = {
 export default function ScrollReveal({
   children,
   delay = 0,
-  duration = 800,
+  duration = 650,
   className = "",
   once = true,
 }: ScrollRevealProps) {
@@ -38,8 +38,8 @@ export default function ScrollReveal({
         }
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -60px 0px",
+        threshold: 0.08,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 
@@ -54,12 +54,12 @@ export default function ScrollReveal({
     <div
       ref={ref}
       className={`
-        transition-all
+        transition-[transform,opacity]
         ease-[cubic-bezier(0.22,1,0.36,1)]
         ${
           isVisible
-            ? "translate-y-0 scale-100 opacity-100 blur-0"
-            : "translate-y-8 scale-[0.98] opacity-0 blur-[4px]"
+            ? "translate-y-0 opacity-100"
+            : "translate-y-5 opacity-0"
         }
         ${className}
       `}
