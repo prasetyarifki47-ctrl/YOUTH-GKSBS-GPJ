@@ -20,7 +20,7 @@ export default function NatalComingSoonPage() {
               <div className="h-px w-10 bg-[#BFA98D]" />
 
               <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#8B7355]">
-                Natal 2026
+                YOUTH GKSBS Klasis Pugung Raharjo Christmas Celebration 2026
               </p>
 
               <div className="h-px w-10 bg-[#BFA98D]" />
