@@ -62,7 +62,7 @@ export default function Footer() {
           ================================================== */}
           <div>
 
-            <h3 className="font-heading text-3xl">
+            <h3 className="font-heading text-2xl sm:text-3xl lg:text-4xl">
               Menu
             </h3>
 
@@ -113,7 +113,7 @@ export default function Footer() {
           ================================================== */}
           <div>
 
-            <h3 className="font-heading text-3xl">
+            <h3 className="font-heading text-2xl sm:text-3xl lg:text-4xl">
               Kontak
             </h3>
 
