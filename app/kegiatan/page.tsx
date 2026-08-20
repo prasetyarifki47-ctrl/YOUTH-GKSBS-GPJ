@@ -165,7 +165,7 @@ export default function KegiatanPage() {
 
                   {/* BUTTON */}
                   <a
-                    href="https://docs.google.com/spreadsheets/d/1pAf9WVXay8zjxvB7vXW08PVPYgcdFhVo0Z1ZlqQ1c9c/edit?gid=0#gid=0"
+                    href="https://docs.google.com/spreadsheets/d/1Qqg40iGkGPSVBrnwFb09uWKZnO8FWUyyjl9_s4HjKP4/edit?usp=sharing"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-[#BFA98D] px-5 py-3.5 text-sm font-medium text-[#6F503B] transition-all duration-300 hover:border-[#8B7355] hover:bg-[#F7F3EC]"
