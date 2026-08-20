@@ -254,11 +254,11 @@ export default function KegiatanPage() {
 
                   {/* BUTTON */}
                   <a
-                    href="#"
-                    className="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-[#BFA98D] px-5 py-3.5 text-sm font-medium text-[#6F503B] transition-all duration-300 hover:border-[#8B7355] hover:bg-[#F7F3EC]"
-                  >
-                    Lihat Detail
-                  </a>
+  href="/kegiatan/natal-2026"
+  className="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-[#BFA98D] px-5 py-3.5 text-sm font-medium text-[#6F503B] transition-all duration-300 hover:border-[#8B7355] hover:bg-[#F7F3EC]"
+>
+  Lihat Detail
+</a>
 
                 </div>
 
