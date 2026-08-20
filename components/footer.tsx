@@ -16,7 +16,7 @@ export default function Footer() {
           ================================================== */}
           <div>
 
-            <h2 className="font-heading text-4xl uppercase">
+            <h2 className="font-heading text-2xl uppercase sm:text-3xl lg:text-4xl">
               YOUTH GKSBS GPJ
             </h2>
 
@@ -26,7 +26,6 @@ export default function Footer() {
               membangun persaudaraan, mengembangkan talenta,
               dan melayani bersama.
             </p>
-
 
             {/* SOCIAL MEDIA */}
             <div className="mt-7 flex items-center gap-4">
@@ -41,7 +40,6 @@ export default function Footer() {
               >
                 <InstagramIcon />
               </a>
-
 
               {/* TIKTOK */}
               <a

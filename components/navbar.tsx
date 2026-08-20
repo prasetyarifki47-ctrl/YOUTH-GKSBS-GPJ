@@ -31,14 +31,14 @@ export default function Navbar() {
       {/* =====================================================
           NAVBAR
       ====================================================== */}
-      <nav className="mx-auto flex h-24 max-w-[1800px] items-center justify-between px-6 sm:px-10 lg:px-16 xl:px-20">
+      <nav className="mx-auto flex h-20 max-w-[1800px] items-center justify-between px-5 sm:h-24 sm:px-10 lg:px-16 xl:px-20">
 
         {/* =================================================
             LOGO & BRAND
         ================================================== */}
         <Link
           href="/"
-          className="flex items-center gap-4"
+          className="flex items-center gap-2.5 sm:gap-4"
           onClick={() => setIsOpen(false)}
         >
           <Image
@@ -46,17 +46,17 @@ export default function Navbar() {
             alt="Youth GKSBS"
             width={120}
             height={120}
-            className="h-24 w-24 object-contain"
+            className="h-16 w-16 object-contain sm:h-20 sm:w-20 lg:h-24 lg:w-24"
             priority
           />
 
           <div className="flex flex-col leading-none">
 
-            <span className="text-lg font-semibold tracking-[0.02em] text-white sm:text-xl">
+            <span className="text-sm font-semibold tracking-[0.02em] text-white sm:text-lg lg:text-xl">
               YOUTH GKSBS GPJ
             </span>
 
-            <span className="mt-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#E8DCC8] sm:text-xs">
+            <span className="mt-2 text-[9px] font-medium uppercase tracking-[0.15em] text-[#E8DCC8] sm:mt-2.5 sm:text-[11px] lg:text-xs">
               Gunung Pasir Jaya
             </span>
 
@@ -114,7 +114,7 @@ export default function Navbar() {
           aria-label="Buka menu"
           aria-expanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
-          className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#C7A77B]/40 text-white transition hover:bg-white/5 md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#C7A77B]/40 text-white transition hover:bg-white/5 sm:h-11 sm:w-11 md:hidden"
         >
           <div className="flex flex-col gap-1.5">
 
@@ -163,7 +163,7 @@ export default function Navbar() {
         `}
       >
 
-        <div className="mx-auto max-w-[1560px] px-6 py-4 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1560px] px-5 py-3 sm:px-10 sm:py-4">
 
           <div className="flex flex-col">
 
@@ -176,8 +176,9 @@ export default function Navbar() {
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={`
-                    border-b border-white/10 py-4 text-base
+                    border-b border-white/10 py-3.5 text-sm
                     transition duration-300
+                    sm:py-4 sm:text-base
                     ${
                       active
                         ? "font-medium text-[#C7A77B]"
