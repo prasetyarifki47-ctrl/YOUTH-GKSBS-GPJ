@@ -268,7 +268,7 @@ export default function TentangPage() {
                   title="Bendahara"
                   people={[
                     ["Bendahara 1", "Siska Ervina Sari"],
-                    ["Bendahara 2", "Eka Ratna Damayanti"],
+                    ["Bendahara 2", "Ratna Putri Damyanti"],
                   ]}
                 />
               </ScrollReveal>
@@ -329,7 +329,7 @@ export default function TentangPage() {
                 <DepartmentCard
                   title="Kewirausahaan"
                   people={[
-                    ["Kepala Departemen", "Cristina"],
+                    ["Kepala Departemen", "Cristina Natalia"],
                     ["Sekretaris Departemen", "Aryanti"],
                   ]}
                 />
