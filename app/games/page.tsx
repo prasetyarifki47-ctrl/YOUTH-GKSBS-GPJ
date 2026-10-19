@@ -164,7 +164,7 @@ export default function GamesPage() {
   const playEffectRef = useRef<(type: SoundType) => void>(() => {});
 
   useEffect(() => {
-    const audio = new Audio("/audio/audio.mp3");
+    const audio = new Audio("/audio/audio");
     audio.loop = true;
     audio.preload = "auto";
     audio.volume = volumeRef.current;
