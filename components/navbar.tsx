@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -13,6 +14,7 @@ export default function Navbar() {
     { name: "Beranda", href: "/" },
     { name: "Profil", href: "/tentang" },
     { name: "Kegiatan", href: "/kegiatan" },
+    { name: "Bible Games", href: "/games" },
     { name: "Dokumentasi", href: "/dokumentasi" },
     { name: "Kontak", href: "/kontak" },
   ];
@@ -27,15 +29,9 @@ export default function Navbar() {
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 bg-[#4A3426] shadow-sm">
-
-      {/* =====================================================
-          NAVBAR
-      ====================================================== */}
+      {/* NAVBAR */}
       <nav className="mx-auto flex h-20 max-w-[1800px] items-center justify-between px-5 sm:h-24 sm:px-10 lg:px-16 xl:px-20">
-
-        {/* =================================================
-            LOGO & BRAND
-        ================================================== */}
+        {/* LOGO & BRAND */}
         <Link
           href="/"
           className="flex items-center gap-2.5 sm:gap-4"
@@ -51,7 +47,6 @@ export default function Navbar() {
           />
 
           <div className="flex flex-col leading-none">
-
             <span className="text-sm font-semibold tracking-[0.02em] text-white sm:text-lg lg:text-xl">
               YOUTH GKSBS GPJ
             </span>
@@ -59,16 +54,11 @@ export default function Navbar() {
             <span className="mt-2 text-[9px] font-medium uppercase tracking-[0.15em] text-[#E8DCC8] sm:mt-2.5 sm:text-[11px] lg:text-xs">
               Gunung Pasir Jaya
             </span>
-
           </div>
         </Link>
 
-
-        {/* =================================================
-            DESKTOP NAVIGATION
-        ================================================== */}
+        {/* DESKTOP NAVIGATION */}
         <div className="hidden items-center gap-10 md:flex">
-
           {navItems.map((item) => {
             const active = isActive(item.href);
 
@@ -77,7 +67,7 @@ export default function Navbar() {
                 key={item.name}
                 href={item.href}
                 className={`
-                  relative text-base transition duration-300
+                  relative whitespace-nowrap text-base transition duration-300
                   ${
                     active
                       ? "font-medium text-[#C7A77B]"
@@ -87,7 +77,7 @@ export default function Navbar() {
               >
                 {item.name}
 
-                {/* Garis kecil di bawah menu aktif */}
+                {/* GARIS MENU AKTIF */}
                 <span
                   className={`
                     absolute -bottom-2 left-0 h-px bg-[#C7A77B]
@@ -102,55 +92,39 @@ export default function Navbar() {
               </Link>
             );
           })}
-
         </div>
 
-
-        {/* =================================================
-            MOBILE MENU BUTTON
-        ================================================== */}
+        {/* MOBILE MENU BUTTON */}
         <button
           type="button"
-          aria-label="Buka menu"
+          aria-label={isOpen ? "Tutup menu" : "Buka menu"}
           aria-expanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
           className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#C7A77B]/40 text-white transition hover:bg-white/5 sm:h-11 sm:w-11 md:hidden"
         >
           <div className="flex flex-col gap-1.5">
-
             <span
               className={`block h-px w-5 bg-white transition duration-300 ${
-                isOpen
-                  ? "translate-y-2 rotate-45"
-                  : ""
+                isOpen ? "translate-y-2 rotate-45" : ""
               }`}
             />
 
             <span
               className={`block h-px w-5 bg-white transition duration-300 ${
-                isOpen
-                  ? "opacity-0"
-                  : ""
+                isOpen ? "opacity-0" : ""
               }`}
             />
 
             <span
               className={`block h-px w-5 bg-white transition duration-300 ${
-                isOpen
-                  ? "-translate-y-2 -rotate-45"
-                  : ""
+                isOpen ? "-translate-y-2 -rotate-45" : ""
               }`}
             />
-
           </div>
         </button>
-
       </nav>
 
-
-      {/* =====================================================
-          MOBILE MENU
-      ====================================================== */}
+      {/* MOBILE MENU */}
       <div
         className={`
           overflow-hidden border-t border-white/10 bg-[#4A3426]
@@ -162,11 +136,8 @@ export default function Navbar() {
           }
         `}
       >
-
         <div className="mx-auto max-w-[1560px] px-5 py-3 sm:px-10 sm:py-4">
-
           <div className="flex flex-col">
-
             {navItems.map((item) => {
               const active = isActive(item.href);
 
@@ -175,6 +146,7 @@ export default function Navbar() {
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
+                  aria-current={active ? "page" : undefined}
                   className={`
                     border-b border-white/10 py-3.5 text-sm
                     transition duration-300
@@ -190,13 +162,9 @@ export default function Navbar() {
                 </Link>
               );
             })}
-
           </div>
-
         </div>
-
       </div>
-
     </header>
   );
 }
