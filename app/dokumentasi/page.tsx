@@ -197,7 +197,7 @@ function DokumentasiCard({
       {/* Photo Slider */}
       <div>
         <div
-          className="group relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-[#E6DED3] shadow-sm"
+          className="group relative aspect-[4/3] touch-pan-y overflow-hidden rounded-[1.5rem] bg-[#E6DED3] shadow-sm"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -209,7 +209,7 @@ function DokumentasiCard({
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               draggable={false}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+              className={`absolute inset-0 h-full w-full select-none object-cover transition-opacity duration-500 ${
                 index === current
                   ? "scale-100 opacity-100"
                   : "pointer-events-none scale-[1.02] opacity-0"
@@ -218,34 +218,10 @@ function DokumentasiCard({
           ))}
 
           {/* Gradient */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-
-          {/* Previous Button */}
-          {totalImages > 1 && (
-            <button
-              type="button"
-              onClick={previousImage}
-              aria-label="Foto sebelumnya"
-              className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-2xl text-white backdrop-blur-sm transition hover:bg-black/65 focus:outline-none focus:ring-2 focus:ring-white"
-            >
-              ‹
-            </button>
-          )}
-
-          {/* Next Button */}
-          {totalImages > 1 && (
-            <button
-              type="button"
-              onClick={nextImage}
-              aria-label="Foto berikutnya"
-              className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-2xl text-white backdrop-blur-sm transition hover:bg-black/65 focus:outline-none focus:ring-2 focus:ring-white"
-            >
-              ›
-            </button>
-          )}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
           {/* Photo Counter */}
-          <div className="absolute bottom-5 left-5 rounded-full bg-black/40 px-4 py-2 text-xs font-medium tracking-wider text-white backdrop-blur-md">
+          <div className="pointer-events-none absolute bottom-5 left-5 rounded-full bg-black/40 px-4 py-2 text-xs font-medium tracking-wider text-white backdrop-blur-md">
             {current + 1} / {totalImages}
           </div>
         </div>
@@ -269,7 +245,7 @@ function DokumentasiCard({
         </div>
 
         <p className="mt-3 text-center text-xs text-[#8B7355]">
-          Geser foto atau gunakan tombol panah
+          Geser foto ke kiri atau kanan untuk melihat foto lainnya
         </p>
       </div>
 
