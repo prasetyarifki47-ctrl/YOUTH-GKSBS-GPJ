@@ -38,7 +38,7 @@ export default function Navbar() {
           onClick={() => setIsOpen(false)}
         >
           <Image
-            src="/images/logo.png"
+            src="/images/logo2.png"
             alt="Youth GKSBS"
             width={120}
             height={120}
