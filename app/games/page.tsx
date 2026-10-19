@@ -685,7 +685,7 @@ export default function GamesPage() {
               </h2>
 
               <p className="mt-2 leading-relaxed text-[#725D4B]">
-                Masukkan namamu agar hasil permainan dapat ditampilkan atas namamu.
+                Masukkan namamu agar hasil permainan dapat ditampilkan pada Leaderboard.
               </p>
             </div>
 
