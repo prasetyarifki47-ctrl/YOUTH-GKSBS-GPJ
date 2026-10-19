@@ -18,7 +18,6 @@ type Question = {
 };
 
 const NAME_KEY = "youth-gpj-player-name";
-const SOUND_KEY = "youth-gpj-bible-game-sound";
 const QUESTION_TIME = 20;
 const TOTAL_QUESTIONS = 10;
 
@@ -153,73 +152,26 @@ export default function GamesPage() {
   const [saved, setSaved] = useState(false);
   const [submittingScore, setSubmittingScore] = useState(false);
   const [wordOrder, setWordOrder] = useState<Record<number, string>>({});
-  const [soundEnabled, setSoundEnabled] = useState(false);
-  const [volume, setVolume] = useState(0.25);
+
+  // Efek suara aktif sejak awal.
+  const [soundEnabled] = useState(true);
+  const [volume] = useState(0.25);
 
   const audioContextRef = useRef<AudioContext | null>(null);
-  const quizAudioRef = useRef<HTMLAudioElement | null>(null);
   const volumeRef = useRef(0.25);
-  const soundEnabledRef = useRef(false);
+  const soundEnabledRef = useRef(true);
   const timeoutHandledRef = useRef(false);
   const playEffectRef = useRef<(type: SoundType) => void>(() => {});
-
-  useEffect(() => {
-    const audio = new Audio("/audio/audio");
-    audio.loop = true;
-    audio.preload = "auto";
-    audio.volume = volumeRef.current;
-    quizAudioRef.current = audio;
-
-    return () => {
-      audio.pause();
-      audio.currentTime = 0;
-      quizAudioRef.current = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    try {
-      const storedName = localStorage.getItem(NAME_KEY);
-
-      if (storedName) {
-        setPlayerName(storedName);
-        setNameInput(storedName);
-      }
-
-      const storedSound = localStorage.getItem(SOUND_KEY);
-
-      if (storedSound) {
-        const settings = JSON.parse(storedSound);
-
-        if (typeof settings.volume === "number") {
-          setVolume(Math.max(0, Math.min(1, settings.volume)));
-        }
-      }
-    } catch {
-      // Aplikasi tetap berjalan jika localStorage tidak tersedia.
-    }
-  }, []);
-
-  useEffect(() => {
-    volumeRef.current = volume;
-    soundEnabledRef.current = soundEnabled;
-
-    if (quizAudioRef.current) {
-      quizAudioRef.current.volume = volume;
-    }
-
-    try {
-      localStorage.setItem(SOUND_KEY, JSON.stringify({ volume }));
-    } catch {
-      // Pengaturan tetap berlaku selama sesi.
-    }
-  }, [volume, soundEnabled]);
 
   const getAudioContext = useCallback(() => {
     if (typeof window === "undefined") return null;
 
-    if (!audioContextRef.current || audioContextRef.current.state === "closed") {
-      const AudioContextClass = window.AudioContext ||
+    if (
+      !audioContextRef.current ||
+      audioContextRef.current.state === "closed"
+    ) {
+      const AudioContextClass =
+        window.AudioContext ||
         (window as typeof window & {
           webkitAudioContext?: typeof AudioContext;
         }).webkitAudioContext;
@@ -270,29 +222,6 @@ export default function GamesPage() {
     oscillator.stop(now + duration + 0.03);
   }, [getAudioContext]);
 
-  const stopQuizMusic = useCallback(() => {
-    const audio = quizAudioRef.current;
-
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-  }, []);
-
-  const startQuizMusic = useCallback(() => {
-    const audio = quizAudioRef.current;
-
-    if (!audio || !soundEnabledRef.current) return;
-
-    audio.volume = volumeRef.current;
-
-    if (!audio.paused) return;
-
-    void audio.play().catch((error: unknown) => {
-      console.warn("Musik permainan tidak dapat diputar:", error);
-    });
-  }, []);
-
   const playEffect = useCallback((type: SoundType) => {
     if (!soundEnabledRef.current) return;
 
@@ -302,7 +231,9 @@ export default function GamesPage() {
 
     if (context.state === "suspended") {
       void context.resume().then(() => {
-        if (soundEnabledRef.current) playEffectRef.current(type);
+        if (soundEnabledRef.current) {
+          playEffectRef.current(type);
+        }
       }).catch((error: unknown) => {
         console.warn("Efek suara tidak dapat diputar:", error);
       });
@@ -355,7 +286,12 @@ export default function GamesPage() {
         [392, 523.25, 659.25, 783.99, 1046.5].forEach((frequency, i) => {
           window.setTimeout(() => {
             if (soundEnabledRef.current) {
-              playTone(frequency, i === 4 ? 0.55 : 0.22, 0.13, "triangle");
+              playTone(
+                frequency,
+                i === 4 ? 0.55 : 0.22,
+                0.13,
+                "triangle"
+              );
             }
           }, i * 140);
         });
@@ -365,41 +301,28 @@ export default function GamesPage() {
 
   playEffectRef.current = playEffect;
 
-  const toggleSound = useCallback(() => {
-    const enabling = !soundEnabledRef.current;
-
-    soundEnabledRef.current = enabling;
-    setSoundEnabled(enabling);
-
-    if (enabling) {
-      const context = getAudioContext();
-
-      if (context?.state === "suspended") {
-        void context.resume().catch((error: unknown) => {
-          console.warn("AudioContext tidak dapat diaktifkan:", error);
-        });
-      }
-
-      playEffectRef.current("click");
-
-      if (gameStarted && !finished) {
-        startQuizMusic();
-      }
-    } else {
-      stopQuizMusic();
-    }
-  }, [getAudioContext, gameStarted, finished, startQuizMusic, stopQuizMusic]);
-
+  // AudioContext ditutup saat halaman dilepas.
   useEffect(() => {
     return () => {
-      stopQuizMusic();
-
       if (audioContextRef.current) {
         void audioContextRef.current.close();
         audioContextRef.current = null;
       }
     };
-  }, [stopQuizMusic]);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const storedName = localStorage.getItem(NAME_KEY);
+
+      if (storedName) {
+        setPlayerName(storedName);
+        setNameInput(storedName);
+      }
+    } catch {
+      // Aplikasi tetap berjalan jika localStorage tidak tersedia.
+    }
+  }, []);
 
   // TIMER BERLAKU UNTUK KETIGA GAME.
   useEffect(() => {
@@ -421,7 +344,7 @@ export default function GamesPage() {
     return () => window.clearInterval(timer);
   }, [game, gameStarted, questions, index, finished, feedback, timeLeft]);
 
-  // Waktu habis: jawaban otomatis dinyatakan tidak terjawab.
+  // Waktu habis.
   useEffect(() => {
     if (
       !game ||
@@ -441,7 +364,7 @@ export default function GamesPage() {
     playEffectRef.current("wrong");
   }, [game, gameStarted, questions, index, finished, feedback, timeLeft]);
 
-  // Bunyi countdown lima detik terakhir untuk ketiga game.
+  // Bunyi countdown lima detik terakhir.
   useEffect(() => {
     if (
       !game ||
@@ -472,7 +395,9 @@ export default function GamesPage() {
     }
 
     if (!isAppropriateName(trimmed)) {
-      setNameError("Nama mengandung kata yang tidak diperbolehkan. Silakan gunakan nama lain.");
+      setNameError(
+        "Nama mengandung kata yang tidak diperbolehkan. Silakan gunakan nama lain."
+      );
       return;
     }
 
@@ -491,7 +416,6 @@ export default function GamesPage() {
   }
 
   function changePlayerName() {
-    stopQuizMusic();
     setNameInput(playerName);
     setNameError("");
     setEditingName(true);
@@ -504,7 +428,6 @@ export default function GamesPage() {
   }
 
   function selectGame(selectedGame: GameType) {
-    stopQuizMusic();
     setGame(selectedGame);
     setGameStarted(false);
     setQuestions([]);
@@ -522,6 +445,15 @@ export default function GamesPage() {
 
   function startGame() {
     if (!game) return;
+
+    // Interaksi pengguna mengaktifkan AudioContext di browser.
+    const context = getAudioContext();
+
+    if (context?.state === "suspended") {
+      void context.resume().catch((error: unknown) => {
+        console.warn("AudioContext tidak dapat diaktifkan:", error);
+      });
+    }
 
     const chosen = shuffle(questionBank[game]).slice(0, TOTAL_QUESTIONS);
 
@@ -544,12 +476,6 @@ export default function GamesPage() {
         ])
       )
     );
-
-    if (soundEnabledRef.current) {
-      startQuizMusic();
-    } else {
-      stopQuizMusic();
-    }
 
     setGameStarted(true);
     playEffect("click");
@@ -597,12 +523,15 @@ export default function GamesPage() {
       console.error("Nama pemain masih kosong.");
     } else {
       try {
-        const { data, error } = await supabase.rpc("submit_bible_game_score", {
-          p_player_name: playerName.trim(),
-          p_game_type: game,
-          p_difficulty: "medium",
-          p_score: score,
-        });
+        const { data, error } = await supabase.rpc(
+          "submit_bible_game_score",
+          {
+            p_player_name: playerName.trim(),
+            p_game_type: game,
+            p_difficulty: "medium",
+            p_score: score,
+          }
+        );
 
         if (error) {
           console.error("Gagal menyimpan skor global:", error);
@@ -619,12 +548,10 @@ export default function GamesPage() {
     setSaved(globalSaved);
     setSubmittingScore(false);
     setFinished(true);
-    stopQuizMusic();
     playEffect("win");
   }
 
   function goHome() {
-    stopQuizMusic();
     setGame(null);
     setGameStarted(false);
     setFinished(false);
@@ -655,7 +582,7 @@ export default function GamesPage() {
       <div className="mx-auto max-w-5xl">
         <Link
           href="/"
-          onClick={stopQuizMusic}
+          onClick={() => playEffect("click")}
           className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#C7A77B] bg-[#E8DCC8] px-4 py-2 text-sm font-bold transition hover:bg-[#C7A77B]"
         >
           ← Kembali ke Beranda
@@ -817,51 +744,31 @@ export default function GamesPage() {
                   </p>
                 </div>
 
-                {/* Ikon musik tanpa keterangan, dengan garis silang saat nonaktif. */}
+                {/* Ikon speaker statis; bukan tombol musik. */}
                 <div className="mt-6 flex justify-center">
-                  <button
-                    type="button"
-                    onClick={toggleSound}
-                    aria-label={soundEnabled ? "Matikan suara" : "Aktifkan suara"}
-                    aria-pressed={soundEnabled}
-                    title={soundEnabled ? "Matikan suara" : "Aktifkan suara"}
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-[#D7C4AA] bg-[#F5EFE5] transition hover:bg-[#E8DCC8]"
+                  <div
+                    role="img"
+                    aria-label="Efek suara aktif"
+                    title="Efek suara aktif"
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-[#D7C4AA] bg-[#F5EFE5]"
                   >
-                    <span className="relative flex h-7 w-7 items-center justify-center">
-                      <svg
-                        viewBox="0 0 24 24"
-                        width="26"
-                        height="26"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                        className="text-[#725D4B]"
-                      >
-                        <path d="M9 18V5l12-2v13" />
-                        <circle cx="6" cy="18" r="3" />
-                        <circle cx="18" cy="16" r="3" />
-                      </svg>
-
-                      {!soundEnabled && (
-                        <svg
-                          viewBox="0 0 24 24"
-                          width="30"
-                          height="30"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.4"
-                          strokeLinecap="round"
-                          aria-hidden="true"
-                          className="absolute inset-0 text-rose-700"
-                        >
-                          <path d="M4 4L20 20" />
-                        </svg>
-                      )}
-                    </span>
-                  </button>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="26"
+                      height="26"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      className="text-[#725D4B]"
+                    >
+                      <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                      <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                      <path d="M19 5a10 10 0 0 1 0 14" />
+                    </svg>
+                  </div>
                 </div>
 
                 <div className="mt-7 space-y-3">
@@ -1099,7 +1006,10 @@ export default function GamesPage() {
                     </button>
                   )}
 
-                  <button onClick={goHome} className={buttonClass}>
+                  <button
+                    onClick={goHome}
+                    className={buttonClass}
+                  >
                     Keluar
                   </button>
                 </div>
