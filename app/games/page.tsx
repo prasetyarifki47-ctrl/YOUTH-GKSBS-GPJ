@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -32,9 +31,24 @@ const games: {
   icon: string;
   description: string;
 }[] = [
-  { id: "quiz", title: "Kuis Alkitab", icon: "📖", description: "Uji pengetahuanmu tentang Alkitab." },
-  { id: "character", title: "Tebak Tokoh", icon: "👤", description: "Tebak tokoh Alkitab dari petunjuknya." },
-  { id: "word", title: "Acak Kata", icon: "🔤", description: "Susun huruf menjadi kata yang benar." },
+  {
+    id: "quiz",
+    title: "Kuis Alkitab",
+    icon: "📖",
+    description: "Uji pengetahuanmu tentang Alkitab.",
+  },
+  {
+    id: "character",
+    title: "Tebak Tokoh",
+    icon: "👤",
+    description: "Tebak tokoh Alkitab dari petunjuknya.",
+  },
+  {
+    id: "word",
+    title: "Acak Kata",
+    icon: "🔤",
+    description: "Susun huruf menjadi kata yang benar.",
+  },
 ];
 
 const questionBank: Record<GameType, Question[]> = {
@@ -55,6 +69,7 @@ const questionBank: Record<GameType, Question[]> = {
     { question: "Siapakah rekan Paulus yang dikenal sebagai tabib?", answer: "Lukas", options: ["Markus", "Silas", "Lukas", "Titus"] },
     { question: "Siapakah yang menggantikan Yudas Iskariot sebagai rasul?", answer: "Matias", options: ["Barnabas", "Matias", "Stefanus", "Apolos"] },
   ],
+
   character: [
     { question: "Aku membangun bahtera sebelum air bah datang. Siapakah aku?", answer: "Nuh", hint: "Kisahku ada dalam Kejadian 6–9." },
     { question: "Aku mengalahkan Goliat dengan umban dan batu. Siapakah aku?", answer: "Daud", hint: "Aku kemudian menjadi raja Israel." },
@@ -72,6 +87,7 @@ const questionBank: Record<GameType, Question[]> = {
     { question: "Aku adalah saudara perempuan Musa dan seorang nabiah.", answer: "Miryam", hint: "Aku ikut memimpin pujian setelah Israel menyeberangi laut." },
     { question: "Aku adalah rekan Paulus dari Listra.", answer: "Timotius", hint: "Paulus menulis dua surat yang memakai namaku." },
   ],
+
   word: [
     { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YESUS", hint: "Y S U S E" },
     { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "MUSA", hint: "S A M U" },
@@ -116,7 +132,8 @@ function normalize(value: string): string {
 }
 
 function normalizeNameForModeration(value: string): string {
-  return value.normalize("NFKD")
+  return value
+    .normalize("NFKD")
     .toLocaleLowerCase("id-ID")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[\u200B-\u200D\uFEFF]/g, "")
@@ -153,10 +170,7 @@ export default function GamesPage() {
   const [submittingScore, setSubmittingScore] = useState(false);
   const [wordOrder, setWordOrder] = useState<Record<number, string>>({});
 
-  // Efek suara aktif sejak awal.
-  const [soundEnabled] = useState(true);
-  const [volume] = useState(0.25);
-
+  // Efek suara selalu aktif. Tidak ada tombol pengaturan suara.
   const audioContextRef = useRef<AudioContext | null>(null);
   const volumeRef = useRef(0.25);
   const soundEnabledRef = useRef(true);
@@ -184,120 +198,131 @@ export default function GamesPage() {
     return audioContextRef.current;
   }, []);
 
-  const playTone = useCallback((
-    frequency: number,
-    duration: number,
-    volumeAmount: number,
-    wave: OscillatorType = "sine",
-    endFrequency?: number
-  ) => {
-    const context = getAudioContext();
+  const playTone = useCallback(
+    (
+      frequency: number,
+      duration: number,
+      volumeAmount: number,
+      wave: OscillatorType = "sine",
+      endFrequency?: number
+    ) => {
+      const context = getAudioContext();
 
-    if (!context || context.state !== "running") return;
+      if (!context || context.state !== "running") return;
 
-    const now = context.currentTime;
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
+      const now = context.currentTime;
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
 
-    oscillator.type = wave;
-    oscillator.frequency.setValueAtTime(frequency, now);
+      oscillator.type = wave;
+      oscillator.frequency.setValueAtTime(frequency, now);
 
-    if (endFrequency !== undefined) {
-      oscillator.frequency.exponentialRampToValueAtTime(
-        Math.max(20, endFrequency),
-        now + duration
+      if (endFrequency !== undefined) {
+        oscillator.frequency.exponentialRampToValueAtTime(
+          Math.max(20, endFrequency),
+          now + duration
+        );
+      }
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(
+        Math.max(0.0001, volumeAmount * volumeRef.current),
+        now + Math.min(0.025, duration / 3)
       );
-    }
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(
-      Math.max(0.0001, volumeAmount * volumeRef.current),
-      now + Math.min(0.025, duration / 3)
-    );
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.start(now);
+      oscillator.stop(now + duration + 0.03);
+    },
+    [getAudioContext]
+  );
 
-    oscillator.connect(gain);
-    gain.connect(context.destination);
-    oscillator.start(now);
-    oscillator.stop(now + duration + 0.03);
-  }, [getAudioContext]);
+  const playEffect = useCallback(
+    (type: SoundType) => {
+      if (!soundEnabledRef.current) return;
 
-  const playEffect = useCallback((type: SoundType) => {
-    if (!soundEnabledRef.current) return;
+      const context = getAudioContext();
 
-    const context = getAudioContext();
+      if (!context) return;
 
-    if (!context) return;
+      if (context.state === "suspended") {
+        void context
+          .resume()
+          .then(() => {
+            if (soundEnabledRef.current) {
+              playEffectRef.current(type);
+            }
+          })
+          .catch((error: unknown) => {
+            console.warn("Efek suara tidak dapat diputar:", error);
+          });
 
-    if (context.state === "suspended") {
-      void context.resume().then(() => {
-        if (soundEnabledRef.current) {
-          playEffectRef.current(type);
-        }
-      }).catch((error: unknown) => {
-        console.warn("Efek suara tidak dapat diputar:", error);
-      });
+        return;
+      }
 
-      return;
-    }
+      switch (type) {
+        case "click":
+          playTone(720, 0.07, 0.07, "sine", 520);
+          break;
 
-    switch (type) {
-      case "click":
-        playTone(720, 0.07, 0.07, "sine", 520);
-        break;
-
-      case "select":
-        playTone(440, 0.08, 0.08, "triangle");
-        window.setTimeout(() => {
-          if (soundEnabledRef.current) {
-            playTone(660, 0.1, 0.07, "triangle");
-          }
-        }, 55);
-        break;
-
-      case "correct":
-        playTone(523.25, 0.16, 0.17, "triangle");
-        window.setTimeout(() => {
-          if (soundEnabledRef.current) {
-            playTone(659.25, 0.18, 0.15, "triangle");
-          }
-        }, 100);
-        window.setTimeout(() => {
-          if (soundEnabledRef.current) {
-            playTone(783.99, 0.26, 0.13, "sine");
-          }
-        }, 200);
-        break;
-
-      case "wrong":
-        playTone(300, 0.18, 0.12, "sawtooth", 230);
-        window.setTimeout(() => {
-          if (soundEnabledRef.current) {
-            playTone(180, 0.22, 0.08, "triangle");
-          }
-        }, 130);
-        break;
-
-      case "tick":
-        playTone(1100, 0.055, 0.065, "square", 800);
-        break;
-
-      case "win":
-        [392, 523.25, 659.25, 783.99, 1046.5].forEach((frequency, i) => {
+        case "select":
+          playTone(440, 0.08, 0.08, "triangle");
           window.setTimeout(() => {
             if (soundEnabledRef.current) {
-              playTone(
-                frequency,
-                i === 4 ? 0.55 : 0.22,
-                0.13,
-                "triangle"
-              );
+              playTone(660, 0.1, 0.07, "triangle");
             }
-          }, i * 140);
-        });
-        break;
-    }
-  }, [getAudioContext, playTone]);
+          }, 55);
+          break;
+
+        case "correct":
+          playTone(523.25, 0.16, 0.17, "triangle");
+          window.setTimeout(() => {
+            if (soundEnabledRef.current) {
+              playTone(659.25, 0.18, 0.15, "triangle");
+            }
+          }, 100);
+          window.setTimeout(() => {
+            if (soundEnabledRef.current) {
+              playTone(783.99, 0.26, 0.13, "sine");
+            }
+          }, 200);
+          break;
+
+        case "wrong":
+          playTone(300, 0.18, 0.12, "sawtooth", 230);
+          window.setTimeout(() => {
+            if (soundEnabledRef.current) {
+              playTone(180, 0.22, 0.08, "triangle");
+            }
+          }, 130);
+          break;
+
+        case "tick":
+          playTone(1100, 0.055, 0.065, "square", 800);
+          break;
+
+        case "win":
+          [392, 523.25, 659.25, 783.99, 1046.5].forEach(
+            (frequency, i) => {
+              window.setTimeout(() => {
+                if (soundEnabledRef.current) {
+                  playTone(
+                    frequency,
+                    i === 4 ? 0.55 : 0.22,
+                    0.13,
+                    "triangle"
+                  );
+                }
+              }, i * 140);
+            }
+          );
+          break;
+      }
+    },
+    [getAudioContext, playTone]
+  );
 
   playEffectRef.current = playEffect;
 
@@ -369,7 +394,6 @@ export default function GamesPage() {
     if (
       !game ||
       !gameStarted ||
-      !soundEnabled ||
       feedback ||
       finished ||
       timeLeft < 1 ||
@@ -379,7 +403,7 @@ export default function GamesPage() {
     }
 
     playEffectRef.current("tick");
-  }, [timeLeft, game, gameStarted, soundEnabled, feedback, finished]);
+  }, [timeLeft, game, gameStarted, feedback, finished]);
 
   function savePlayerName() {
     const trimmed = nameInput.trim();
@@ -440,13 +464,14 @@ export default function GamesPage() {
     setSubmittingScore(false);
     setTimeLeft(QUESTION_TIME);
     timeoutHandledRef.current = false;
+
     playEffect("click");
   }
 
   function startGame() {
     if (!game) return;
 
-    // Interaksi pengguna mengaktifkan AudioContext di browser.
+    // Interaksi pengguna membantu mengaktifkan AudioContext di browser.
     const context = getAudioContext();
 
     if (context?.state === "suspended") {
@@ -488,7 +513,8 @@ export default function GamesPage() {
       return;
     }
 
-    const isCorrect = normalize(answer) === normalize(currentQuestion.answer);
+    const isCorrect =
+      normalize(answer) === normalize(currentQuestion.answer);
 
     setFeedback(isCorrect ? "correct" : "wrong");
 
@@ -562,6 +588,7 @@ export default function GamesPage() {
     setTimeLeft(QUESTION_TIME);
     setSubmittingScore(false);
     timeoutHandledRef.current = false;
+
     playEffect("click");
   }
 
@@ -589,8 +616,7 @@ export default function GamesPage() {
         </Link>
 
         <header className="mb-8 text-center">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#8A6847]">
-          </p>
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#8A6847]"></p>
 
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
             Bible <span className="text-[#9B754D]">Games</span>
@@ -598,8 +624,7 @@ export default function GamesPage() {
 
           <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-[#C7A77B]" />
 
-          <p className="mx-auto mt-4 max-w-xl leading-relaxed text-[#725D4B]">
-          </p>
+          <p className="mx-auto mt-4 max-w-xl leading-relaxed text-[#725D4B]"></p>
         </header>
 
         {!playerName || editingName ? (
@@ -612,7 +637,8 @@ export default function GamesPage() {
               </h2>
 
               <p className="mt-2 leading-relaxed text-[#725D4B]">
-                Masukkan namamu agar hasil permainan dapat ditampilkan pada Leaderboard.
+                Masukkan namamu agar hasil permainan dapat ditampilkan pada
+                Leaderboard.
               </p>
             </div>
 
@@ -646,7 +672,11 @@ export default function GamesPage() {
               />
 
               {nameError && (
-                <p id="name-error" role="alert" className="mt-2 text-sm font-bold text-rose-700">
+                <p
+                  id="name-error"
+                  role="alert"
+                  className="mt-2 text-sm font-bold text-rose-700"
+                >
                   {nameError}
                 </p>
               )}
@@ -740,36 +770,12 @@ export default function GamesPage() {
                   </h2>
 
                   <p className="mt-3 leading-relaxed text-[#725D4B]">
-                    Siap bermain, {playerName}? Baca aturan berikut sebelum memulai.
+                    Siap bermain, {playerName}? Baca aturan berikut sebelum
+                    memulai.
                   </p>
                 </div>
 
-                {/* Ikon speaker statis; bukan tombol musik. */}
-                <div className="mt-6 flex justify-center">
-                  <div
-                    role="img"
-                    aria-label="Efek suara aktif"
-                    title="Efek suara aktif"
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-[#D7C4AA] bg-[#F5EFE5]"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="26"
-                      height="26"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                      className="text-[#725D4B]"
-                    >
-                      <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-                      <path d="M15.5 8.5a5 5 0 0 1 0 7" />
-                      <path d="M19 5a10 10 0 0 1 0 14" />
-                    </svg>
-                  </div>
-                </div>
+                {/* Tidak ada ikon atau tombol pengaturan suara. */}
 
                 <div className="mt-7 space-y-3">
                   <div className="flex items-center gap-3 rounded-xl border border-[#D7C4AA] bg-[#F5EFE5] p-4">
@@ -883,7 +889,9 @@ export default function GamesPage() {
 
                 <div className="mt-4 flex items-center justify-between text-sm text-[#725D4B]">
                   <span>Progres permainan</span>
-                  <span className="font-bold text-[#967047]">Skor: {score}</span>
+                  <span className="font-bold text-[#967047]">
+                    Skor: {score}
+                  </span>
                 </div>
 
                 <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#E8DCC8]">
@@ -1006,10 +1014,7 @@ export default function GamesPage() {
                     </button>
                   )}
 
-                  <button
-                    onClick={goHome}
-                    className={buttonClass}
-                  >
+                  <button onClick={goHome} className={buttonClass}>
                     Keluar
                   </button>
                 </div>
