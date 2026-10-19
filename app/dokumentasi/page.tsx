@@ -2,7 +2,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type TouchEvent } from "react";
+import { useState, type TouchEvent, type MouseEvent } from "react";
 import ScrollReveal from "@/components/scroll-reveal";
 
 const dokumentasi = [
@@ -156,6 +156,7 @@ function DokumentasiCard({
 }) {
   const [current, setCurrent] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [mouseStart, setMouseStart] = useState<number | null>(null);
 
   const totalImages = item.images.length;
 
@@ -167,6 +168,7 @@ function DokumentasiCard({
     setCurrent((prev) => (prev + 1) % totalImages);
   }
 
+  // Geser menggunakan layar sentuh
   function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
     setTouchStart(event.touches[0].clientX);
   }
@@ -188,6 +190,28 @@ function DokumentasiCard({
     setTouchStart(null);
   }
 
+  // Geser menggunakan mouse di laptop
+  function handleMouseDown(event: MouseEvent<HTMLDivElement>) {
+    if (event.button !== 0) return;
+    setMouseStart(event.clientX);
+  }
+
+  function handleMouseUp(event: MouseEvent<HTMLDivElement>) {
+    if (mouseStart === null) return;
+
+    const distance = mouseStart - event.clientX;
+
+    if (Math.abs(distance) > 50) {
+      if (distance > 0) {
+        nextImage();
+      } else {
+        previousImage();
+      }
+    }
+
+    setMouseStart(null);
+  }
+
   return (
     <article
       className={`grid items-center gap-12 lg:grid-cols-2 lg:gap-20 ${
@@ -197,9 +221,12 @@ function DokumentasiCard({
       {/* Photo Slider */}
       <div>
         <div
-          className="group relative aspect-[4/3] touch-pan-y overflow-hidden rounded-[1.5rem] bg-[#E6DED3] shadow-sm"
+          className="group relative aspect-[4/3] touch-pan-y cursor-grab select-none overflow-hidden rounded-[1.5rem] bg-[#E6DED3] shadow-sm active:cursor-grabbing"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={() => setMouseStart(null)}
         >
           {item.images.map((image, index) => (
             <Image
@@ -209,10 +236,10 @@ function DokumentasiCard({
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               draggable={false}
-              className={`absolute inset-0 h-full w-full select-none object-cover transition-opacity duration-500 ${
+              className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
                 index === current
                   ? "scale-100 opacity-100"
-                  : "pointer-events-none scale-[1.02] opacity-0"
+                  : "scale-[1.02] opacity-0"
               }`}
             />
           ))}
