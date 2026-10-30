@@ -51,59 +51,157 @@ const games: {
   },
 ];
 
-const questionBank: Record<GameType, Question[]> = {
+const questionBank: Record<GameType, Question[][]> = {
+  // Paket berganti otomatis setiap hari Senin. Setelah paket ke-4, siklus kembali ke paket pertama.
   quiz: [
-    { question: "Siapakah ibu Yesus?", answer: "Maria", options: ["Marta", "Maria", "Rut", "Ester"] },
-    { question: "Di kota manakah Yesus dilahirkan?", answer: "Betlehem", options: ["Nazaret", "Yerusalem", "Betlehem", "Yerikho"] },
-    { question: "Siapakah yang membuat bahtera?", answer: "Nuh", options: ["Musa", "Nuh", "Daud", "Yusuf"] },
-    { question: "Berapa jumlah murid Yesus?", answer: "12", options: ["7", "10", "12", "40"] },
-    { question: "Siapakah yang mengalahkan Goliat?", answer: "Daud", options: ["Salomo", "Daud", "Simson", "Samuel"] },
-    { question: "Siapakah yang menafsirkan mimpi Firaun?", answer: "Yusuf", options: ["Yusuf", "Daniel", "Musa", "Harun"] },
-    { question: "Siapakah ibu Samuel?", answer: "Hana", options: ["Debora", "Hana", "Rut", "Elisabet"] },
-    { question: "Siapakah yang memimpin Israel keluar dari Mesir?", answer: "Musa", options: ["Yosua", "Harun", "Musa", "Kaleb"] },
-    { question: "Di pulau manakah Yohanes menerima penglihatan Wahyu?", answer: "Patmos", options: ["Kreta", "Patmos", "Siprus", "Malta"] },
-    { question: "Siapakah pemungut cukai yang memanjat pohon?", answer: "Zakheus", options: ["Nikodemus", "Zakheus", "Bartimeus", "Filipus"] },
-    { question: "Siapakah raja Salem yang menjadi imam Allah Yang Mahatinggi?", answer: "Melkisedek", options: ["Melkisedek", "Abimelekh", "Nebukadnezar", "Ahasyweros"] },
-    { question: "Siapakah ayah Yohanes Pembaptis?", answer: "Zakharia", options: ["Yairus", "Zakharia", "Kornelius", "Kleopas"] },
-    { question: "Siapakah hakim perempuan dalam kitab Hakim-hakim?", answer: "Debora", options: ["Debora", "Yael", "Hana", "Miryam"] },
-    { question: "Siapakah rekan Paulus yang dikenal sebagai tabib?", answer: "Lukas", options: ["Markus", "Silas", "Lukas", "Titus"] },
-    { question: "Siapakah yang menggantikan Yudas Iskariot sebagai rasul?", answer: "Matias", options: ["Barnabas", "Matias", "Stefanus", "Apolos"] },
+    [
+      { question: "Siapakah manusia pertama yang diciptakan Allah?", answer: "Adam", options: ["Nuh", "Adam", "Abraham", "Ishak"] },
+      { question: "Siapakah istri Abraham?", answer: "Sara", options: ["Ribka", "Rahel", "Sara", "Hana"] },
+      { question: "Siapakah anak Abraham dan Sara?", answer: "Ishak", options: ["Ismael", "Yakub", "Yusuf", "Ishak"] },
+      { question: "Siapakah yang menerima Sepuluh Perintah Allah?", answer: "Musa", options: ["Harun", "Musa", "Yosua", "Daud"] },
+      { question: "Berapa hari Allah menciptakan langit dan bumi sebelum beristirahat pada hari ketujuh?", answer: "Enam", options: ["Lima", "Enam", "Tujuh", "Delapan"] },
+      { question: "Siapakah saudara laki-laki Musa?", answer: "Harun", options: ["Harun", "Kaleb", "Yosua", "Gideon"] },
+      { question: "Siapakah yang memimpin bangsa Israel memasuki tanah Kanaan setelah Musa?", answer: "Yosua", options: ["Harun", "Samuel", "Yosua", "Saul"] },
+      { question: "Siapakah raja Israel yang terkenal karena hikmatnya?", answer: "Salomo", options: ["Saul", "Daud", "Salomo", "Hizkia"] },
+      { question: "Kitab apakah yang berada tepat setelah kitab Mazmur?", answer: "Amsal", options: ["Ayub", "Amsal", "Pengkhotbah", "Yesaya"] },
+      { question: "Siapakah murid yang dikenal sebagai orang yang meragukan kebangkitan Yesus sebelum melihat-Nya?", answer: "Tomas", options: ["Andreas", "Tomas", "Filipus", "Matius"] },
+    ],
+    [
+      { question: "Siapakah ayah Ishak?", answer: "Abraham", options: ["Yakub", "Abraham", "Ishak", "Yusuf"] },
+      { question: "Siapakah anak Yakub yang dijual oleh saudara-saudaranya?", answer: "Yusuf", options: ["Benyamin", "Ruben", "Yusuf", "Yehuda"] },
+      { question: "Di sungai apakah bayi Musa dihanyutkan dalam sebuah peti?", answer: "Nil", options: ["Yordan", "Efrat", "Nil", "Tigris"] },
+      { question: "Siapakah perempuan Moab yang menjadi nenek moyang Daud?", answer: "Rut", options: ["Ester", "Rut", "Debora", "Naomi"] },
+      { question: "Siapakah nabi yang menantang nabi-nabi Baal di Gunung Karmel?", answer: "Elia", options: ["Elisa", "Yesaya", "Elia", "Yeremia"] },
+      { question: "Siapakah raja yang membangun Bait Suci pertama di Yerusalem?", answer: "Salomo", options: ["Daud", "Salomo", "Saul", "Yosia"] },
+      { question: "Siapakah yang membaptis Yesus?", answer: "Yohanes Pembaptis", options: ["Petrus", "Yohanes Pembaptis", "Yakobus", "Andreas"] },
+      { question: "Di taman manakah Yesus berdoa sebelum ditangkap?", answer: "Getsemani", options: ["Eden", "Getsemani", "Karmel", "Siloam"] },
+      { question: "Siapakah gubernur yang mengadili Yesus?", answer: "Pontius Pilatus", options: ["Herodes", "Pontius Pilatus", "Feliks", "Festus"] },
+      { question: "Kitab terakhir dalam Perjanjian Baru adalah kitab apa?", answer: "Wahyu", options: ["Yudas", "Ibrani", "Wahyu", "Kisah Para Rasul"] },
+    ],
+    [
+      { question: "Siapakah anak sulung Adam dan Hawa?", answer: "Kain", options: ["Habel", "Kain", "Set", "Enos"] },
+      { question: "Siapakah yang membangun kembali tembok Yerusalem?", answer: "Nehemia", options: ["Ezra", "Nehemia", "Daniel", "Zerubabel"] },
+      { question: "Siapakah raja yang melemparkan Daniel ke gua singa?", answer: "Darius", options: ["Koresh", "Nebukadnezar", "Darius", "Belsyazar"] },
+      { question: "Siapakah nabi yang diutus Tuhan kepada Niniwe?", answer: "Yunus", options: ["Amos", "Yunus", "Mikha", "Hosea"] },
+      { question: "Siapakah ibu Yohanes Pembaptis?", answer: "Elisabet", options: ["Maria", "Marta", "Elisabet", "Hana"] },
+      { question: "Mukjizat pertama Yesus dalam Injil Yohanes terjadi di Kana. Apa yang diubah-Nya?", answer: "Air menjadi anggur", options: ["Air menjadi anggur", "Roti menjadi ikan", "Batu menjadi roti", "Anggur menjadi air"] },
+      { question: "Siapakah pemungut cukai yang menjadi salah satu dari dua belas murid Yesus?", answer: "Matius", options: ["Matius", "Markus", "Lukas", "Yohanes"] },
+      { question: "Siapakah yang membantu Yesus memikul salib?", answer: "Simon dari Kirene", options: ["Yusuf dari Arimatea", "Simon dari Kirene", "Nikodemus", "Bartimeus"] },
+      { question: "Pada hari ke berapakah Yesus bangkit menurut kesaksian Injil?", answer: "Hari ketiga", options: ["Hari pertama", "Hari kedua", "Hari ketiga", "Hari ketujuh"] },
+      { question: "Di kota manakah para pengikut Yesus pertama kali disebut Kristen?", answer: "Antiokhia", options: ["Roma", "Yerusalem", "Antiokhia", "Efesus"] },
+    ],
+    [
+      { question: "Siapakah saudara laki-laki Habel yang membunuhnya?", answer: "Kain", options: ["Set", "Kain", "Lamekh", "Enos"] },
+      { question: "Siapakah yang bergumul dengan seorang laki-laki sampai fajar dan kemudian dinamai Israel?", answer: "Yakub", options: ["Esau", "Ishak", "Yakub", "Yusuf"] },
+      { question: "Siapakah perempuan yang menyelamatkan mata-mata Israel di Yerikho?", answer: "Rahab", options: ["Rahab", "Yael", "Debora", "Abigail"] },
+      { question: "Siapakah hakim yang mengalahkan orang Midian dengan 300 orang?", answer: "Gideon", options: ["Simson", "Yefta", "Gideon", "Ehud"] },
+      { question: "Siapakah nabi yang menegur Daud setelah peristiwa dengan Batsyeba?", answer: "Natan", options: ["Gad", "Natan", "Samuel", "Elia"] },
+      { question: "Siapakah yang dikenal sebagai pemungut cukai sebelum mengikuti Yesus dan menulis Injil?", answer: "Matius", options: ["Markus", "Matius", "Lukas", "Tomas"] },
+      { question: "Siapakah pasangan suami istri yang melayani bersama Paulus dan bekerja sebagai pembuat kemah?", answer: "Akwila dan Priskila", options: ["Ananias dan Safira", "Akwila dan Priskila", "Zakharia dan Elisabet", "Maria dan Marta"] },
+      { question: "Di pulau manakah Paulus mengalami karam kapal dalam perjalanan menuju Roma?", answer: "Malta", options: ["Kreta", "Patmos", "Malta", "Siprus"] },
+      { question: "Siapakah pemuda yang jatuh dari jendela ketika Paulus berkhotbah di Troas?", answer: "Eutikhus", options: ["Trofimus", "Eutikhus", "Onesimus", "Titus"] },
+      { question: "Surat apakah yang berisi ajaran tentang perlengkapan senjata Allah?", answer: "Efesus", options: ["Roma", "Galatia", "Efesus", "Filipi"] },
+    ],
   ],
-
   character: [
-    { question: "Aku membangun bahtera sebelum air bah datang. Siapakah aku?", answer: "Nuh", hint: "Kisahku ada dalam Kejadian 6–9." },
-    { question: "Aku mengalahkan Goliat dengan umban dan batu. Siapakah aku?", answer: "Daud", hint: "Aku kemudian menjadi raja Israel." },
-    { question: "Aku ditelan ikan besar setelah melarikan diri dari tugas Tuhan.", answer: "Yunus", hint: "Namaku juga menjadi nama sebuah kitab." },
-    { question: "Aku adalah ibu Yesus. Siapakah aku?", answer: "Maria", hint: "Aku menerima kabar dari malaikat Gabriel." },
-    { question: "Aku memimpin Israel keluar dari Mesir. Siapakah aku?", answer: "Musa", hint: "Tuhan memanggilku melalui semak yang menyala." },
-    { question: "Aku memanjat pohon ara untuk melihat Yesus.", answer: "Zakheus", hint: "Aku kepala pemungut cukai." },
-    { question: "Aku berada di gua singa dan melayani Tuhan di Babel.", answer: "Daniel", hint: "Namaku menjadi nama sebuah kitab." },
-    { question: "Aku adalah ratu yang berani membela bangsaku.", answer: "Ester", hint: "Namaku menjadi nama sebuah kitab." },
-    { question: "Aku menyangkal Yesus tiga kali sebelum ayam berkokok.", answer: "Petrus", hint: "Aku seorang nelayan dan rasul." },
-    { question: "Aku menemani Naomi kembali ke Betlehem.", answer: "Rut", hint: "Aku berasal dari Moab." },
-    { question: "Aku dikenal karena kekuatanku dan rambutku.", answer: "Simson", hint: "Kisahku ada dalam kitab Hakim-hakim." },
-    { question: "Aku menggantikan Elia sebagai nabi.", answer: "Elisa", hint: "Aku meminta dua bagian roh Elia." },
-    { question: "Aku menolong Paulus dan dikenal sebagai tabib.", answer: "Lukas", hint: "Aku menulis satu Injil dan Kisah Para Rasul." },
-    { question: "Aku adalah saudara perempuan Musa dan seorang nabiah.", answer: "Miryam", hint: "Aku ikut memimpin pujian setelah Israel menyeberangi laut." },
-    { question: "Aku adalah rekan Paulus dari Listra.", answer: "Timotius", hint: "Paulus menulis dua surat yang memakai namaku." },
+    [
+      { question: "Aku adalah saudara perempuan Musa yang menjaga adiknya ketika masih bayi. Siapakah aku?", answer: "Miryam", hint: "Aku juga memimpin pujian setelah bangsa Israel menyeberangi laut." },
+      { question: "Aku adalah anak bungsu Isai yang diurapi Samuel menjadi raja. Siapakah aku?", answer: "Daud", hint: "Aku pernah mengalahkan Goliat." },
+      { question: "Aku adalah seorang perempuan yang menjadi hakim dan nabiah di Israel. Siapakah aku?", answer: "Debora", hint: "Aku memimpin bersama Barak." },
+      { question: "Aku meminta hikmat kepada Tuhan ketika menjadi raja. Siapakah aku?", answer: "Salomo", hint: "Aku adalah anak Daud." },
+      { question: "Aku adalah saudara Esau dan menerima berkat kesulungan melalui tipu daya. Siapakah aku?", answer: "Yakub", hint: "Namaku kemudian diubah menjadi Israel." },
+      { question: "Aku menafsirkan tulisan di dinding pada pesta Raja Belsyazar. Siapakah aku?", answer: "Daniel", hint: "Aku pernah berada di gua singa." },
+      { question: "Aku adalah janda dari Moab yang setia mengikuti Naomi. Siapakah aku?", answer: "Rut", hint: "Aku kemudian menikah dengan Boas." },
+      { question: "Aku adalah imam yang membesarkan Samuel di rumah Tuhan. Siapakah aku?", answer: "Eli", hint: "Kedua anakku bernama Hofni dan Pinehas." },
+      { question: "Aku adalah murid yang membawa Natanael kepada Yesus. Siapakah aku?", answer: "Filipus", hint: "Namaku termasuk dalam daftar dua belas murid." },
+      { question: "Aku adalah perempuan yang menuangkan minyak wangi kepada Yesus di Betania. Siapakah aku?", answer: "Maria", hint: "Aku adalah saudara Marta dan Lazarus." },
+    ],
+    [
+      { question: "Aku adalah pemimpin Israel yang menggantikan Musa. Siapakah aku?", answer: "Yosua", hint: "Aku memimpin bangsa Israel menyeberangi Sungai Yordan." },
+      { question: "Aku adalah ratu yang mempertaruhkan keberanianku demi menyelamatkan bangsaku. Siapakah aku?", answer: "Ester", hint: "Aku dibesarkan oleh Mordekhai." },
+      { question: "Aku adalah nabi yang naik ke surga dalam angin badai. Siapakah aku?", answer: "Elia", hint: "Jubahku kemudian dipungut oleh Elisa." },
+      { question: "Aku adalah penerus pelayanan nabi Elia. Siapakah aku?", answer: "Elisa", hint: "Aku meminta dua bagian roh Elia." },
+      { question: "Aku adalah ibu Samuel yang berdoa dengan sungguh-sungguh memohon seorang anak. Siapakah aku?", answer: "Hana", hint: "Aku menyerahkan Samuel untuk melayani Tuhan." },
+      { question: "Aku adalah saudara perempuan Lazarus yang sibuk melayani ketika Yesus berkunjung. Siapakah aku?", answer: "Marta", hint: "Saudariku bernama Maria." },
+      { question: "Aku adalah orang yang menyediakan kubur bagi Yesus. Siapakah aku?", answer: "Yusuf dari Arimatea", hint: "Aku adalah anggota Majelis Besar." },
+      { question: "Aku adalah rekan Paulus yang masih muda dan menerima dua surat darinya. Siapakah aku?", answer: "Timotius", hint: "Ibuku bernama Eunike." },
+      { question: "Aku adalah seorang perempuan penjual kain ungu dari Tiatira yang menerima Injil di Filipi. Siapakah aku?", answer: "Lidia", hint: "Rumahku menjadi tempat Paulus dan Silas singgah." },
+      { question: "Aku adalah orang yang membantu Saulus memperoleh penglihatan kembali di Damsyik. Siapakah aku?", answer: "Ananias", hint: "Tuhan menyuruhku menemui Saulus." },
+    ],
+    [
+      { question: "Aku adalah anak Abraham dari Hagar. Siapakah aku?", answer: "Ismael", hint: "Aku lahir sebelum Ishak." },
+      { question: "Aku adalah istri Ishak dan ibu Yakub serta Esau. Siapakah aku?", answer: "Ribka", hint: "Aku berasal dari keluarga Betuel." },
+      { question: "Aku adalah anak Yakub yang menerima jubah indah dan dijual oleh saudara-saudaraku. Siapakah aku?", answer: "Yusuf", hint: "Aku menjadi penguasa di Mesir." },
+      { question: "Aku adalah perempuan yang membunuh Sisera dengan patok kemah. Siapakah aku?", answer: "Yael", hint: "Kisahku terdapat dalam kitab Hakim-hakim." },
+      { question: "Aku adalah raja yang memerintahkan pembangunan kembali Bait Allah di Yerusalem. Siapakah aku?", answer: "Koresh", hint: "Aku adalah raja Persia." },
+      { question: "Aku adalah nabi yang melihat lembah penuh tulang kering. Siapakah aku?", answer: "Yehezkiel", hint: "Namaku menjadi nama salah satu kitab nabi." },
+      { question: "Aku adalah perempuan yang menyembunyikan dua mata-mata Israel di Yerikho. Siapakah aku?", answer: "Rahab", hint: "Rumahku berada di tembok kota." },
+      { question: "Aku adalah seorang diaken yang menjelaskan Kitab Yesaya kepada seorang sida-sida Etiopia. Siapakah aku?", answer: "Filipus", hint: "Aku kemudian ditemukan di Asdod." },
+      { question: "Aku adalah rekan Paulus yang disebut sebagai tabib yang kekasih. Siapakah aku?", answer: "Lukas", hint: "Aku menulis Injil dan Kisah Para Rasul." },
+      { question: "Aku adalah murid yang menggantikan Yudas Iskariot. Siapakah aku?", answer: "Matias", hint: "Aku dipilih setelah Yesus naik ke surga." },
+    ],
+    [
+      { question: "Aku adalah ayah Yohanes Pembaptis dan seorang imam. Siapakah aku?", answer: "Zakharia", hint: "Istriku bernama Elisabet." },
+      { question: "Aku adalah perempuan yang mengunjungi Elisabet setelah menerima kabar dari malaikat Gabriel. Siapakah aku?", answer: "Maria", hint: "Aku adalah ibu Yesus." },
+      { question: "Aku adalah orang yang memimpin pembangunan kembali tembok Yerusalem. Siapakah aku?", answer: "Nehemia", hint: "Aku pernah menjadi juru minuman raja Persia." },
+      { question: "Aku adalah sahabat Ayub yang berasal dari Teman. Siapakah aku?", answer: "Elifas", hint: "Aku termasuk salah satu teman yang datang menghiburnya." },
+      { question: "Aku adalah nabi yang menegur Raja Daud melalui sebuah perumpamaan. Siapakah aku?", answer: "Natan", hint: "Aku menyampaikan kisah tentang anak domba betina." },
+      { question: "Aku adalah orang Samaria yang menolong seseorang yang dirampok dalam perumpamaan Yesus. Siapakah aku?", answer: "Orang Samaria", hint: "Kisahku mengajarkan kasih kepada sesama." },
+      { question: "Aku adalah perempuan yang menjadi saksi pertama kebangkitan Yesus menurut Injil Yohanes. Siapakah aku?", answer: "Maria Magdalena", hint: "Yesus memanggil namaku di dekat kubur." },
+      { question: "Aku adalah seorang pemuda yang tertidur saat Paulus berkhotbah panjang di Troas. Siapakah aku?", answer: "Eutikhus", hint: "Aku jatuh dari tingkat tiga." },
+      { question: "Aku adalah kepala rumah ibadat yang anak perempuannya dibangkitkan Yesus. Siapakah aku?", answer: "Yairus", hint: "Aku memohon kepada Yesus agar anakku disembuhkan." },
+      { question: "Aku adalah orang Farisi yang datang kepada Yesus pada malam hari. Siapakah aku?", answer: "Nikodemus", hint: "Yesus berbicara kepadaku tentang kelahiran kembali." },
+    ],
   ],
-
   word: [
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YESUS", hint: "Y S U S E" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "MUSA", hint: "S A M U" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "NUH", hint: "H U N" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "DAUD", hint: "U D A D" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "RUT", hint: "T U R" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YUSUF", hint: "F U S Y U" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "MARIA", hint: "A I M R A" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "PETRUS", hint: "S U P T E R" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "DANIEL", hint: "L A D E N I" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ESTER", hint: "R S E T E" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "MELKISEDEK", hint: "K E D M E S I L E K" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "NEHEMIA", hint: "M E H N A I E" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "BARNABAS", hint: "A B R S N A B A" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ZAKHEUS", hint: "U Z K E S A H" },
-    { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "TIMOTIUS", hint: "T I M U S O T I" },
+    [
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ABRAHAM", hint: "M A H R A B A" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ISHak".toUpperCase(), hint: "K A H I S" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YAKUB", hint: "B U K A Y" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "MIRYAM", hint: "Y A M I R M" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "HARUN", hint: "N A R U H" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YOSUA", hint: "A U S O Y" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "SALOMO", hint: "O M A L O S" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ELIA", hint: "A I L E" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ELISA", hint: "A S E L I" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "DEBORA", hint: "A R O B E D" },
+    ],
+    [
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "GIDEON", hint: "D O N E I G" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YUNUS", hint: "S U N U Y" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ESTER", hint: "R E T S E" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "RAHAB", hint: "B A H A R" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "NAOMI", hint: "I M A O N" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "BOAS", hint: "S O A B" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "DANIEL", hint: "L A D E N I" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "NEHEMIA", hint: "M E H N A I E" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "LIDIA", hint: "A I D L I" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "MATIAS", hint: "S A T I M A" },
+    ],
+    [
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "TIMOTIUS", hint: "T I M U S O T I" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "PRISKILA", hint: "K I L A P R I S" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "AKWILA", hint: "A W I L A K" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "NIKODEMUS", hint: "S U M E D O K I N" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ZAKHEUS", hint: "U Z K E S A H" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "BARTIMEUS", hint: "S U B A R T I M E" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YOHANES", hint: "S E N A H O Y" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ANDREAS", hint: "S A N D R E A" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "FILIPUS", hint: "S U P I L I F" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "BARNABAS", hint: "A B R S N A B A" },
+    ],
+    [
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YEREMIA", hint: "A M E R I Y E" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YEHEZKIEL", hint: "L E I K Z E H E Y" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ZAKHARIA", hint: "A R I A K H Z A" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "ELISABET", hint: "T E B A S I L E" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YAIrus".toUpperCase(), hint: "S U R I A Y" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "NATAN", hint: "A N T A N" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "GABRIEL", hint: "L E R I A B G" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "MALAKHI", hint: "I H A L K A M" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "YOEL", hint: "L O E Y" },
+      { question: "Susun huruf menjadi nama tokoh Alkitab.", answer: "AMOS", hint: "S O M A" },
+    ],
   ],
 };
 
@@ -116,6 +214,24 @@ function shuffle<T>(items: T[]): T[] {
   }
 
   return result;
+}
+
+
+// Menghitung minggu berdasarkan kalender lokal (Senin–Minggu).
+// Paket yang sama dipakai semua pemain selama minggu berjalan.
+function getWeeklyQuestionSet<T>(weeklySets: T[][]): T[] {
+  const now = new Date();
+  const localMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const mondayOffset = (localMidnight.getDay() + 6) % 7;
+  localMidnight.setDate(localMidnight.getDate() - mondayOffset);
+
+  const epochMonday = new Date(2024, 0, 1); // Senin
+  const weeksSinceEpoch = Math.floor(
+    (localMidnight.getTime() - epochMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)
+  );
+
+  const packageIndex = ((weeksSinceEpoch % weeklySets.length) + weeklySets.length) % weeklySets.length;
+  return weeklySets[packageIndex];
 }
 
 function scramble(word: string): string {
@@ -480,7 +596,8 @@ export default function GamesPage() {
       });
     }
 
-    const chosen = shuffle(questionBank[game]).slice(0, TOTAL_QUESTIONS);
+    const weeklyQuestions = getWeeklyQuestionSet(questionBank[game]);
+    const chosen = shuffle(weeklyQuestions).slice(0, TOTAL_QUESTIONS);
 
     setQuestions(chosen);
     setIndex(0);
