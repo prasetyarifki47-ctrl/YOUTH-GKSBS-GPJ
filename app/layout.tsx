@@ -26,6 +26,16 @@ export const metadata: Metadata = {
 
   applicationName: "Youth GKSBS GPJ",
 
+  icons: {
+    icon: [
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+      },
+    ],
+    shortcut: "/favicon.ico",
+  },
+
   keywords: [
     "Youth GKSBS Gunung Pasir Jaya",
     "Pemuda GKSBS Gunung Pasir Jaya",
@@ -80,9 +90,7 @@ export default function RootLayout({
       <body className={`${inter.variable} antialiased`}>
         <Navbar />
 
-        <PageTransition>
-          {children}
-        </PageTransition>
+        <PageTransition>{children}</PageTransition>
 
         <Footer />
       </body>
