@@ -1,51 +1,30 @@
-
-name: Deploy Website Youth GKSBS GPJ
+name: Deploy Website
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # SET ENVIRONMENT VARIABLE UNTUK SELURUH JOB BUILD
     env:
-      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+      DATABASE_URL: "mysql://dummy:dummy@localhost:3306/dummy_db"
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: '22' # Disarankan upgrade ke Node 22 agar tidak ada warning EBADENGINE
 
-      - name: Install dependencies
+      - name: Install dependencies & Generate Prisma
         run: npm ci
+        env:
+          DATABASE_URL: "mysql://dummy:dummy@localhost:3306/dummy_db"
 
-      - name: Validate Supabase configuration
-        run: |
-          test -n "$NEXT_PUBLIC_SUPABASE_URL" || (echo "Supabase URL belum diatur" && exit 1)
-          test -n "$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" || (echo "Supabase publishable key belum diatur" && exit 1)
-
-      - name: Build website
+      - name: Build project
         run: npm run build
-
-      - name: Upload to hosting
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          local-dir: ./out/
-          server-dir: /
