@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { registerNatal } from '@/actions/register';
 import QRCode from 'qrcode';
 
 const FIXED_CHURCHES = [
@@ -43,40 +42,57 @@ export default function Natal2026Page() {
       return;
     }
 
-    const res = await registerNatal({
-      fullName,
-      church: finalChurch,
-    });
-
-    if (res.success && res.data) {
-      setResult({
-        success: true,
-        ticketCode: res.data.ticketCode,
-        fullName: res.data.fullName,
-        church: res.data.church,
+    try {
+      // Mengirim data pendaftaran ke PHP API Endpoint di cPanel
+      const response = await fetch('/api/register.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName,
+          church: finalChurch,
+        }),
       });
 
-      try {
-        const qrDataUrl = await QRCode.toDataURL(res.data.ticketCode, {
-          width: 300,
-          margin: 2,
-          color: {
-            dark: '#3b3028',
-            light: '#ffffff',
-          },
+      const res = await response.json();
+
+      if (response.ok && res.success && res.data) {
+        setResult({
+          success: true,
+          ticketCode: res.data.ticketCode,
+          fullName: res.data.fullName,
+          church: res.data.church,
         });
-        setQrUrl(qrDataUrl);
-      } catch (err) {
-        console.error('Gagal generate QR Code:', err);
+
+        // Generate QR Code dari Ticket Code hasil balasan PHP API
+        try {
+          const qrDataUrl = await QRCode.toDataURL(res.data.ticketCode, {
+            width: 300,
+            margin: 2,
+            color: {
+              dark: '#3b3028',
+              light: '#ffffff',
+            },
+          });
+          setQrUrl(qrDataUrl);
+        } catch (err) {
+          console.error('Gagal generate QR Code:', err);
+        }
+      } else {
+        setResult({
+          success: false,
+          error: res.message || res.error || 'Terjadi kesalahan saat pendaftaran.',
+        });
       }
-    } else {
+    } catch (err) {
       setResult({
         success: false,
-        error: res.error || 'Terjadi kesalahan saat pendaftaran.',
+        error: 'Terjadi kesalahan jaringan. Silakan coba lagi.',
       });
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -162,7 +178,7 @@ export default function Natal2026Page() {
                   </p>
                 </div>
                 <a 
-                  href="https://wa.me/62895704452518" // Ganti dengan nomor WhatsApp CP Panitia
+                  href="https://wa.me/62895704452518" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 bg-[#3b3028] hover:bg-[#3b3028]/90 text-white font-bold rounded-xl text-[10px] transition"
@@ -180,7 +196,7 @@ export default function Natal2026Page() {
                   <p className="text-[11px] text-emerald-900/80">Gabung grup untuk info & pengumuman acara</p>
                 </div>
                 <a 
-                  href="https://chat.whatsapp.com/LfsejJcOuKc3Qhzv1BmdTO" // Ganti dengan link grup WA resmi
+                  href="https://chat.whatsapp.com/LfsejJcOuKc3Qhzv1BmdTO" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-[10px] transition"
@@ -196,7 +212,6 @@ export default function Natal2026Page() {
             </p>
           </div>
         </div>
-
 
         {/* --- FORMULIR PENDAFTARAN ATAU HASIL TIKET --- */}
         <div id="daftar" className="bg-white/90 backdrop-blur-md rounded-3xl p-5 md:p-6 border border-[#3b3028]/10 shadow-lg animate-hero-buttons scroll-mt-24">
