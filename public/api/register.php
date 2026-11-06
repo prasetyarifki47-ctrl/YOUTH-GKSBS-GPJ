@@ -8,29 +8,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// SESUAIKAN KREDENSIAL DENGAN CPANEL KAMU
 $servername = "localhost";
-$username   = "USERNAME_DB_CPANEL";
-$password   = "PASSWORD_DB_CPANEL";
-$dbname     = "NAMA_DB_CPANEL";
+$username   = "youthgk2_natal"; // Sesuaikan jika ada username khusus cPanel
+$password   = "Mi4sanMi4"; // Isikan password DB cPanel kamu
+$dbname     = "youthgk2_natal";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Koneksi database gagal."]);
+    echo json_encode(["success" => false, "message" => "Koneksi database gagal: " . $conn->connect_error]);
     exit();
 }
 
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data->fullName) && !empty($data->church)) {
-    // Generate kode tiket unik (contoh: NTL-8A2F9)
     $ticketCode = 'NTL-' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 5));
+    $statusAttended = 0;
     
-    // Sesuaikan nama tabel dan kolom di MySQL kamu
-    $stmt = $conn->prepare("INSERT INTO peserta_natal (ticket_code, full_name, church, created_at) VALUES (?, ?, ?, NOW())");
-    $stmt->bind_param("sss", $ticketCode, $data->fullName, $data->church);
+    // QUERY DISESUAIKAN DENGAN TABEL NatalRegistration
+    $stmt = $conn->prepare("INSERT INTO NatalRegistration (ticketCode, fullName, church, statusAttended, createdAt) VALUES (?, ?, ?, ?, NOW())");
+    $stmt->bind_param("sssi", $ticketCode, $data->fullName, $data->church, $statusAttended);
     
     if ($stmt->execute()) {
         echo json_encode([
@@ -43,12 +42,12 @@ if (!empty($data->fullName) && !empty($data->church)) {
         ]);
     } else {
         http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Gagal menyimpan data pendaftaran."]);
+        echo json_encode(["success" => false, "message" => "Gagal menyimpan data: " . $stmt->error]);
     }
     $stmt->close();
 } else {
     http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Data tidak lengkap."]);
+    echo json_encode(["success" => false, "message" => "Mohon lengkapi formulir pendaftaran."]);
 }
 
 $conn->close();

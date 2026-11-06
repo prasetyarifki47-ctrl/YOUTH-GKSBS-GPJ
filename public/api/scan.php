@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $servername = "localhost";
-$username   = "USERNAME_DB_CPANEL";
-$password   = "PASSWORD_DB_CPANEL";
-$dbname     = "NAMA_DB_CPANEL";
+$username   = "youthgk2_natal";
+$password   = "Mi4sanMi4";
+$dbname     = "youthgk2_natal";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -24,17 +24,23 @@ if ($conn->connect_error) {
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data->ticketCode)) {
-    $stmt = $conn->prepare("SELECT full_name, church FROM peserta_natal WHERE ticket_code = ?");
+    $stmt = $conn->prepare("SELECT fullName, church, statusAttended FROM NatalRegistration WHERE ticketCode = ?");
     $stmt->bind_param("s", $data->ticketCode);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
+        // Update status absensi menjadi 1 (Sudah Hadir)
+        $updateStmt = $conn->prepare("UPDATE NatalRegistration SET statusAttended = 1 WHERE ticketCode = ?");
+        $updateStmt->bind_param("s", $data->ticketCode);
+        $updateStmt->execute();
+        $updateStmt->close();
+
         echo json_encode([
             "success" => true,
-            "message" => "Tiket Valid ✅",
+            "message" => "Tiket Valid & Absensi Berhasil ✅",
             "peserta" => [
-                "fullName" => $row['full_name'],
+                "fullName" => $row['fullName'],
                 "church"   => $row['church']
             ]
         ]);
