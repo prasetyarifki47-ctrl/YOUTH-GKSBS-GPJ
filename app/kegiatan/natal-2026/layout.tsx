@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description: 'Formulir Pendaftaran Resmi & Absensi Digital Natal Pemuda/i Klasis Pugung Raharjo 2026.',
   openGraph: {
     title: 'Pendaftaran Peserta Natal Pemuda Klasis Pugung Raharjo 2026',
-    description: 'Daftarkan dirimu dan dapatkan Tiket Absensi QR Code Resmi Natal Pemuda Klasis 2026!',
+    description: 'Daftarkan dirimu dan dapatkan Absensi QR Code Resmi Natal Pemuda Klasis 2026!',
     images: ['/images/natal-gabungan-2026.png'],
   },
 };

@@ -1,10 +1,10 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'export', // MEWAJIBKAN NEXT.JS MENGELUARKAN FOLDER ./out/
-  trailingSlash: true, // Mencegah error 403 saat refresh halaman di cPanel
+  // Hanya gunakan mode export saat npm run build
+  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
   images: {
-    unoptimized: true, // Wajib diaktifkan jika menggunakan Static Export
+    unoptimized: true,
   },
 };
 

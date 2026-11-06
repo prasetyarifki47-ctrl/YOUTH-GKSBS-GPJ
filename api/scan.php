@@ -30,7 +30,6 @@ if (!empty($data->ticketCode)) {
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        // Update status absensi menjadi 1 (Sudah Hadir)
         $updateStmt = $conn->prepare("UPDATE NatalRegistration SET statusAttended = 1 WHERE ticketCode = ?");
         $updateStmt->bind_param("s", $data->ticketCode);
         $updateStmt->execute();

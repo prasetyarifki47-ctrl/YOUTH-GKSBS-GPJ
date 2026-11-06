@@ -43,19 +43,31 @@ export default function Natal2026Page() {
     }
 
     try {
-      // Mengirim data pendaftaran ke PHP API Endpoint di cPanel
-      const response = await fetch('/api/register.php', {
+      const API_URL =
+        process.env.NODE_ENV === 'development'
+          ? 'https://youthgksbsgpj.web.id/api/register.php'
+          : '/api/register.php';
+
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({
-          fullName,
-          church: finalChurch,
+          fullName: fullName.trim(),
+          church: finalChurch.trim(),
         }),
       });
 
-      const res = await response.json();
+      const textResponse = await response.text();
+      let res;
+      try {
+        res = JSON.parse(textResponse);
+      } catch (parseError) {
+        console.error('Respon Server Non-JSON:', textResponse);
+        throw new Error('File register.php di cPanel tidak ditemukan atau belum berada di folder public_html/api/');
+      }
 
       if (response.ok && res.success && res.data) {
         setResult({
@@ -65,7 +77,6 @@ export default function Natal2026Page() {
           church: res.data.church,
         });
 
-        // Generate QR Code dari Ticket Code hasil balasan PHP API
         try {
           const qrDataUrl = await QRCode.toDataURL(res.data.ticketCode, {
             width: 300,
@@ -85,10 +96,11 @@ export default function Natal2026Page() {
           error: res.message || res.error || 'Terjadi kesalahan saat pendaftaran.',
         });
       }
-    } catch (err) {
+    } catch (err: any) {
+      console.error('Fetch Error:', err);
       setResult({
         success: false,
-        error: 'Terjadi kesalahan jaringan. Silakan coba lagi.',
+        error: err.message || 'Terjadi kesalahan jaringan. Silakan coba lagi.',
       });
     } finally {
       setLoading(false);
@@ -101,8 +113,6 @@ export default function Natal2026Page() {
 
         {/* --- CARD BANNER INFORMASI NATAL --- */}
         <div className="bg-white/90 backdrop-blur-md rounded-3xl border border-[#3b3028]/10 shadow-lg overflow-hidden text-center pb-5 animate-hero-image">
-          
-          {/* HEADER GAMBAR BANNER */}
           <div className="w-full h-52 sm:h-60 overflow-hidden relative rounded-t-3xl bg-[#f8f5f1]">
             <img 
               src="/images/natal-gabungan-2026.png" 
@@ -114,7 +124,6 @@ export default function Natal2026Page() {
             />
           </div>
 
-          {/* KONTEN TEKS BANNER */}
           <div className="px-5 md:px-7 pt-3 space-y-2.5 text-center">
             <div className="inline-block px-3 py-0.5 bg-amber-100/70 text-amber-900 rounded-full text-[10px] font-bold tracking-widest uppercase animate-hero-label">
               🎄 Natal Pemuda Klasis 2026 🎄
@@ -133,7 +142,6 @@ export default function Natal2026Page() {
               Dengan penuh sukacita, kita akan merayakan kasih dan terang Kristus yang senantiasa hadir dalam kehidupan kita.
             </p>
 
-            {/* BOX TEMA NATAL */}
             <div className="p-3 bg-[#f8f5f1] border border-[#3b3028]/15 rounded-2xl space-y-1 my-2">
               <span className="text-[9px] font-bold uppercase tracking-wider text-amber-900">
                 🌟 TEMA NATAL 🌟
@@ -149,7 +157,6 @@ export default function Natal2026Page() {
               </div>
             </div>
 
-            {/* JADWAL & LOKASI */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left text-xs pt-1">
               <div className="p-2.5 bg-[#f8f5f1]/60 rounded-xl border border-[#3b3028]/10 flex items-center gap-2.5">
                 <span className="text-lg">📅</span>
@@ -168,9 +175,7 @@ export default function Natal2026Page() {
               </div>
             </div>
 
-            {/* --- CONTACT PERSON & GRUP WHATSAPP --- */}
             <div className="pt-2 space-y-2 text-left text-xs">
-              {/* CONTACT PERSON */}
               <div className="p-3 bg-amber-50/60 border border-amber-900/10 rounded-2xl flex items-center justify-between">
                 <div>
                   <p className="font-bold text-[11px] text-[#3b3028] flex items-center gap-1">
@@ -187,7 +192,6 @@ export default function Natal2026Page() {
                 </a>
               </div>
 
-              {/* GRUP WHATSAPP PESERTA */}
               <div className="p-3 bg-emerald-50/60 border border-emerald-900/10 rounded-2xl flex items-center justify-between">
                 <div>
                   <p className="font-bold text-[11px] text-emerald-950 flex items-center gap-1">
@@ -225,7 +229,6 @@ export default function Natal2026Page() {
                 <p className="text-xs text-[#3b3028]/70">Simpan atau tangkap layar (screenshot) QR Code ini untuk absensi di lokasi acara.</p>
               </div>
 
-              {/* TIKET BOX */}
               <div className="p-4 bg-[#f8f5f1] border-2 border-amber-300 rounded-3xl space-y-3">
                 <div className="bg-white p-3 rounded-2xl inline-block shadow-sm">
                   {qrUrl && <img src={qrUrl} alt="QR Code Tiket" className="w-44 h-44 mx-auto" />}
@@ -245,7 +248,7 @@ export default function Natal2026Page() {
               {qrUrl && (
                 <a
                   href={qrUrl}
-                  download={`Tiket-Natal-${result.fullName}.png`}
+                  download={`QrCode-Natal-${result.fullName}.png`}
                   className="inline-block w-full bg-[#3b3028] hover:bg-[#3b3028]/90 text-white font-bold py-3 rounded-xl text-xs transition shadow-md"
                 >
                   📥 Unduh QR Code (PNG)
