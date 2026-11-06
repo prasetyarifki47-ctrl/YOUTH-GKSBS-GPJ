@@ -2,11 +2,11 @@
   RewriteEngine On
   RewriteBase /
 
-  # Jika file atau folder fisik memang ada, langsung buka
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
+  # Biarkan file dan folder fisik yang ada terbuka langsung
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
 
-  # Jika mengakses /kegiatan, arahkan ke /kegiatan.html atau /kegiatan/index.html
-  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-  RewriteRule ^(.*)$ $1.html [L]
+  # Arahkan route Next.js dinamis ke index.html
+  RewriteRule ^ index.html [L]
 </IfModule>
