@@ -8,7 +8,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # SET ENVIRONMENT VARIABLE UNTUK SELURUH JOB BUILD
     env:
       DATABASE_URL: "mysql://dummy:dummy@localhost:3306/dummy_db"
 
@@ -19,12 +18,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # Disarankan upgrade ke Node 22 agar tidak ada warning EBADENGINE
+          node-version: '22'
 
       - name: Install dependencies & Generate Prisma
         run: npm ci
-        env:
-          DATABASE_URL: "mysql://dummy:dummy@localhost:3306/dummy_db"
 
       - name: Build project
         run: npm run build
+
+      # STEP TAMBAHAN UNTUK UPLOAD HASIL BUILD KE CPANEL JAGOAN HOSTING
+      - name: FTP Deploy to cPanel
+        uses: SamKirsch/ftp-deploy-action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./out/
+          server-dir: /public_html/
