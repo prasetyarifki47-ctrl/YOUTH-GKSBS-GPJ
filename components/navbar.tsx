@@ -14,7 +14,6 @@ export default function Navbar() {
     { name: "Beranda", href: "/" },
     { name: "Profil", href: "/tentang" },
     { name: "Kegiatan", href: "/kegiatan" },
-    { name: "Bible Games", href: "/games" },
     { name: "Dokumentasi", href: "/dokumentasi" },
     { name: "Kontak", href: "/kontak" },
   ];
