@@ -1,9 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  /* output: 'export',  <-- HAPUS ATAU BERI KOMENTAR DENGAN // PADA BARIS INI */
-  images: {
-    unoptimized: true,
-  },
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  trailingSlash: true, // Memastikan setiap route memiliki folder + index.html
+  /* konfigurasi lainnya jika ada */
 };
 
-module.exports = nextConfig; // atau export default nextConfig jika file .mjs
+export default nextConfig;
