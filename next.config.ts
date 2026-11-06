@@ -1,8 +1,11 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  trailingSlash: true, // Memastikan setiap route memiliki folder + index.html
-  /* konfigurasi lainnya jika ada */
+  output: 'export', // MEWAJIBKAN NEXT.JS MENGELUARKAN FOLDER ./out/
+  trailingSlash: true, // Mencegah error 403 saat refresh halaman di cPanel
+  images: {
+    unoptimized: true, // Wajib diaktifkan jika menggunakan Static Export
+  },
 };
 
 export default nextConfig;
