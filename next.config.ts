@@ -1,11 +1,9 @@
-
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: "export",
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  /* output: 'export',  <-- HAPUS ATAU BERI KOMENTAR DENGAN // PADA BARIS INI */
   images: {
     unoptimized: true,
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig; // atau export default nextConfig jika file .mjs
