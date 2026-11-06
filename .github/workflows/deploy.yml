@@ -26,7 +26,7 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # STEP FTP DEPLOY YANG SUDAH DIPERBAIKI
+      # STEP FTP DEPLOY
       - name: FTP Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -34,4 +34,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
-          server-dir: /public_html/
+          server-dir: ./  # <-- GANTI BAGIAN INI (Sebelumnya /public_html/)
