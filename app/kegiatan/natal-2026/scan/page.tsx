@@ -80,16 +80,25 @@ export default function ScanNatalPage() {
           label: d.label || `Kamera ${d.id.slice(0, 5)}...`,
         }));
         setCameras(camList);
-        setSelectedCameraId(camList[0].id);
+
+        // Cari kamera belakang berdasarkan label (misal mengandung kata 'back', 'rear', 'environment', '0')
+        const backCamera = camList.find((c) =>
+          /back|rear|environment|0/i.test(c.label)
+        );
+
+        // Jika ketemu pilih kamera belakang, jika tidak default pilih kamera paling terakhir (biasanya kamera utama di smartphone)
+        if (backCamera) {
+          setSelectedCameraId(backCamera.id);
+        } else {
+          setSelectedCameraId(camList[camList.length - 1].id);
+        }
       }
     } catch (err) {
       console.error('Gagal mendeteksi kamera:', err);
     }
   };
 
-  const startScanner = async (cameraId: string) => {
-    if (!cameraId) return;
-
+  const startScanner = async (cameraId?: string) => {
     try {
       if (html5QrCodeRef.current && isScanning) {
         await html5QrCodeRef.current.stop();
@@ -98,8 +107,13 @@ export default function ScanNatalPage() {
       const html5QrCode = new Html5Qrcode('qr-reader');
       html5QrCodeRef.current = html5QrCode;
 
+      // Konfigurasi Kamera Belakang Otomatis
+      const cameraConfig = cameraId
+        ? cameraId
+        : { facingMode: 'environment' };
+
       await html5QrCode.start(
-        cameraId,
+        cameraConfig,
         {
           fps: 10,
           qrbox: { width: 220, height: 220 },
@@ -117,8 +131,13 @@ export default function ScanNatalPage() {
   };
 
   useEffect(() => {
-    if (isAuthorized && selectedCameraId) {
-      startScanner(selectedCameraId);
+    if (isAuthorized) {
+      if (selectedCameraId) {
+        startScanner(selectedCameraId);
+      } else {
+        // Fallback default mengaktifkan kamera belakang HP langsung
+        startScanner();
+      }
     }
 
     return () => {
