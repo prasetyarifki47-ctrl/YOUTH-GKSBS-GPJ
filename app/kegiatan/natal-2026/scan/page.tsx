@@ -81,12 +81,11 @@ export default function ScanNatalPage() {
         }));
         setCameras(camList);
 
-        // Cari kamera belakang berdasarkan label (misal mengandung kata 'back', 'rear', 'environment', '0')
+        // Deteksi kamera belakang otomatis untuk smartphone
         const backCamera = camList.find((c) =>
           /back|rear|environment|0/i.test(c.label)
         );
 
-        // Jika ketemu pilih kamera belakang, jika tidak default pilih kamera paling terakhir (biasanya kamera utama di smartphone)
         if (backCamera) {
           setSelectedCameraId(backCamera.id);
         } else {
@@ -107,7 +106,6 @@ export default function ScanNatalPage() {
       const html5QrCode = new Html5Qrcode('qr-reader');
       html5QrCodeRef.current = html5QrCode;
 
-      // Konfigurasi Kamera Belakang Otomatis
       const cameraConfig = cameraId
         ? cameraId
         : { facingMode: 'environment' };
@@ -135,7 +133,6 @@ export default function ScanNatalPage() {
       if (selectedCameraId) {
         startScanner(selectedCameraId);
       } else {
-        // Fallback default mengaktifkan kamera belakang HP langsung
         startScanner();
       }
     }
@@ -147,9 +144,11 @@ export default function ScanNatalPage() {
     };
   }, [isAuthorized, selectedCameraId]);
 
-  const handleQrScanned = async (ticketCode: string) => {
+  const handleQrScanned = async (rawCode: string) => {
     if (isProcessing) return;
     setIsProcessing(true);
+
+    const cleanCode = rawCode.trim();
 
     try {
       const API_URL =
@@ -160,46 +159,50 @@ export default function ScanNatalPage() {
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ticketCode: ticketCode.trim() }),
+        body: JSON.stringify({ ticketCode: cleanCode }),
       });
 
       const data = await res.json();
 
       if (res.ok && data.success) {
+        const participantName = data.data?.fullName || 'Peserta';
+        const churchName = data.data?.church || 'Gereja';
+
         if (data.message && data.message.includes('SUDAH ABSEN')) {
           setScanResult({
             type: 'already',
-            title: '⚠️ Sudah Absen',
-            message: `Peserta atas nama ${data.data.fullName} (${data.data.church}) SUDAH ABSEN sebelumnya!`,
+            title: '⚠️ Status Kehadiran',
+            message: `Atas nama ${participantName} dari ${churchName} SUDAH ABSEN sebelumnya.`,
             data: data.data,
           });
         } else {
           setScanResult({
             type: 'success',
             title: '🎉 Absensi Berhasil',
-            message: `Selamat datang, ${data.data.fullName}! Absensi telah dicatat.`,
+            message: `Atas nama ${participantName} dari ${churchName} sudah absen.`,
             data: data.data,
           });
           fetchStats();
         }
       } else {
+        // Jika kode tiket tidak cocok dengan database
         setScanResult({
           type: 'error',
-          title: '❌ Kode Tidak Valid',
-          message: data.message || 'Kode Tiket tidak ditemukan di database.',
+          title: '⚠️ Tiket Tidak Terdaftar',
+          message: `Kode tiket "${cleanCode}" tidak ditemukan dalam sistem.`,
         });
       }
     } catch (err) {
       console.error('Checkin Error:', err);
       setScanResult({
         type: 'error',
-        title: '⚠️ Error Koneksi',
-        message: 'Gagal menghubungkan ke server API.',
+        title: '⚠️ Gangguan Jaringan',
+        message: 'Gagal terhubung ke server database.',
       });
     } finally {
       setTimeout(() => {
         setIsProcessing(false);
-      }, 3000);
+      }, 2500);
     }
   };
 
@@ -276,6 +279,7 @@ export default function ScanNatalPage() {
           </div>
         </div>
 
+        {/* POPUP NOTIFIKASI KEHADIRAN PESERTA */}
         {scanResult && (
           <div
             className={`p-4 rounded-2xl border text-center transition animate-fadeIn ${
@@ -287,20 +291,13 @@ export default function ScanNatalPage() {
             }`}
           >
             <h3 className="font-bold text-sm">{scanResult.title}</h3>
-            <p className="text-xs mt-1 opacity-90">{scanResult.message}</p>
-            
-            {scanResult.data && (
-              <div className="mt-2 pt-2 border-t border-current/10 text-xs font-semibold">
-                <p>{scanResult.data.fullName}</p>
-                <p className="text-[11px] opacity-75">{scanResult.data.church}</p>
-              </div>
-            )}
+            <p className="text-xs mt-1 font-medium">{scanResult.message}</p>
 
             <button
               onClick={() => setScanResult(null)}
               className="mt-3 px-3 py-1 bg-black/10 hover:bg-black/20 text-current font-bold text-[10px] rounded-lg transition"
             >
-              Tutup Warning / Lanjut Scan ↵
+              Lanjut Scan ↵
             </button>
           </div>
         )}
