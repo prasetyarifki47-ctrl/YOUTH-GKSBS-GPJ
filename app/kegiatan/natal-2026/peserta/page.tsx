@@ -19,7 +19,7 @@ export default function PesertaNatalPage() {
   const [pinError, setPinError] = useState('');
 
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedChurchFilter, setSelectedChurchFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'attended' | 'not_attended'>('all');
@@ -27,10 +27,19 @@ export default function PesertaNatalPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Auto-login selama sesi tab browser masih aktif
+  useEffect(() => {
+    const savedAuth = sessionStorage.getItem('natal2026_auth');
+    if (savedAuth === 'true') {
+      setIsAuthorized(true);
+    }
+  }, []);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (pin === 'natal2026') {
       setIsAuthorized(true);
+      sessionStorage.setItem('natal2026_auth', 'true');
       setPinError('');
     } else {
       setPinError('PIN Admin Salah!');
@@ -45,7 +54,7 @@ export default function PesertaNatalPage() {
           ? 'https://youthgksbsgpj.web.id/api/get_participants.php'
           : '/api/get_participants.php';
 
-      const res = await fetch(API_URL, { cache: 'no-store' });
+      const res = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
 
       if (data.success && Array.isArray(data.data)) {
@@ -187,9 +196,22 @@ export default function PesertaNatalPage() {
       
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-heading text-xl md:text-2xl font-bold text-[#2a2421]">
-            Data Peserta Natal 2026
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="font-heading text-xl md:text-2xl font-bold text-[#2a2421]">
+              Data Peserta Natal 2026
+            </h1>
+
+            {/* TOMBOL REFRESH DATA */}
+            <button
+              onClick={fetchParticipants}
+              disabled={loading}
+              title="Refresh Data Peserta"
+              className="inline-flex items-center gap-1 px-3 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-900 border border-amber-300 rounded-lg text-xs font-bold transition active:scale-95 disabled:opacity-50"
+            >
+              <span className={`text-sm ${loading ? 'animate-spin' : ''}`}>🔄</span>
+              {loading ? 'Memuat...' : 'Refresh'}
+            </button>
+          </div>
           <p className="text-xs text-[#3b3028]/60 mt-0.5">
             Monitoring pendaftaran dan kehadiran peserta secara real-time.
           </p>
@@ -359,7 +381,7 @@ export default function PesertaNatalPage() {
                 disabled={currentPage === 1}
                 className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition"
               >
-                ← BEFORE
+                ← SBLM
               </button>
 
               <span className="px-3 py-1.5 bg-amber-50 border border-amber-200 text-amber-900 rounded-lg font-bold">
