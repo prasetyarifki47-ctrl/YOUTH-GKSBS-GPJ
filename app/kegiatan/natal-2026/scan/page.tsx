@@ -50,7 +50,7 @@ export default function ScanNatalPage() {
           ? 'https://youthgksbsgpj.web.id/api/get_participants.php'
           : '/api/get_participants.php';
 
-      const res = await fetch(API_URL, { cache: 'no-store' });
+      const res = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
 
       if (data.success && Array.isArray(data.data)) {
@@ -81,7 +81,7 @@ export default function ScanNatalPage() {
         }));
         setCameras(camList);
 
-        // Deteksi kamera belakang otomatis untuk smartphone
+        // Pilih kamera belakang secara otomatis
         const backCamera = camList.find((c) =>
           /back|rear|environment|0/i.test(c.label)
         );
@@ -97,17 +97,23 @@ export default function ScanNatalPage() {
     }
   };
 
-  const startScanner = async (cameraId?: string) => {
+  // Fungsi Memulai Scanner Kamera
+  const startScanner = async () => {
+    if (isScanning || isProcessing) return;
+
     try {
-      if (html5QrCodeRef.current && isScanning) {
-        await html5QrCodeRef.current.stop();
+      // Hentikan sesi lama jika ada
+      if (html5QrCodeRef.current) {
+        try {
+          await html5QrCodeRef.current.stop();
+        } catch (_) {}
       }
 
       const html5QrCode = new Html5Qrcode('qr-reader');
       html5QrCodeRef.current = html5QrCode;
 
-      const cameraConfig = cameraId
-        ? cameraId
+      const cameraConfig = selectedCameraId
+        ? selectedCameraId
         : { facingMode: 'environment' };
 
       await html5QrCode.start(
@@ -123,30 +129,41 @@ export default function ScanNatalPage() {
       );
 
       setIsScanning(true);
+      setScanResult(null);
     } catch (err) {
       console.error('Gagal memulai kamera:', err);
+      alert('Gagal mengaktifkan kamera. Pastikan izin kamera sudah diberikan.');
     }
   };
 
-  useEffect(() => {
-    if (isAuthorized) {
-      if (selectedCameraId) {
-        startScanner(selectedCameraId);
-      } else {
-        startScanner();
+  // Fungsi Menghentikan Kamera
+  const stopScanner = async () => {
+    if (html5QrCodeRef.current && isScanning) {
+      try {
+        await html5QrCodeRef.current.stop();
+        html5QrCodeRef.current = null;
+      } catch (err) {
+        console.error('Gagal menghentikan kamera:', err);
+      } finally {
+        setIsScanning(false);
       }
     }
+  };
 
+  // Matikan kamera saat komponen ditutup
+  useEffect(() => {
     return () => {
-      if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
-        html5QrCodeRef.current.stop().catch((e) => console.error(e));
-      }
+      stopScanner();
     };
-  }, [isAuthorized, selectedCameraId]);
+  }, []);
 
+  // Handler saat QR Code Terdeteksi
   const handleQrScanned = async (rawCode: string) => {
     if (isProcessing) return;
     setIsProcessing(true);
+
+    // 1. Langsung MATIKAN kamera agar tidak jepret-jepret berulang kali
+    await stopScanner();
 
     const cleanCode = rawCode.trim();
 
@@ -171,25 +188,24 @@ export default function ScanNatalPage() {
         if (data.message && data.message.includes('SUDAH ABSEN')) {
           setScanResult({
             type: 'already',
-            title: '⚠️ Status Kehadiran',
+            title: '⚠️ Sudah Pernah Absen',
             message: `Atas nama ${participantName} dari ${churchName} SUDAH ABSEN sebelumnya.`,
             data: data.data,
           });
         } else {
           setScanResult({
             type: 'success',
-            title: '🎉 Absensi Berhasil',
-            message: `Atas nama ${participantName} dari ${churchName} sudah absen.`,
+            title: '🎉 Absensi Berhasil!',
+            message: `Atas nama ${participantName} dari ${churchName} sudah hadir.`,
             data: data.data,
           });
           fetchStats();
         }
       } else {
-        // Jika kode tiket tidak cocok dengan database
         setScanResult({
           type: 'error',
-          title: '⚠️ Tiket Tidak Terdaftar',
-          message: `Kode tiket "${cleanCode}" tidak ditemukan dalam sistem.`,
+          title: '❌ Kode Tidak Terdaftar',
+          message: `Kode tiket "${cleanCode}" tidak ditemukan di database.`,
         });
       }
     } catch (err) {
@@ -200,9 +216,7 @@ export default function ScanNatalPage() {
         message: 'Gagal terhubung ke server database.',
       });
     } finally {
-      setTimeout(() => {
-        setIsProcessing(false);
-      }, 2500);
+      setIsProcessing(false);
     }
   };
 
@@ -215,7 +229,7 @@ export default function ScanNatalPage() {
             Akses Pemindai Absensi
           </h1>
           <p className="text-xs text-[#3b3028]/70">
-            Masukkan PIN Admin untuk mengaktifkan kamera scanner.
+            Masukkan PIN Admin untuk mengaktifkan scanner.
           </p>
 
           <form onSubmit={handleLogin} className="space-y-3">
@@ -255,10 +269,11 @@ export default function ScanNatalPage() {
             Scanner QR Code
           </h1>
           <p className="text-xs text-[#3b3028]/60">
-            Arahkan kamera ke QR Code peserta untuk absensi.
+            Klik tombol kamera di bawah untuk melakukan absensi.
           </p>
         </div>
 
+        {/* Ringkasan Statistik */}
         <div className="grid grid-cols-2 gap-3 pt-1">
           <div className="p-3 bg-[#f8f9fa] border border-slate-200/80 rounded-2xl">
             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
@@ -279,10 +294,10 @@ export default function ScanNatalPage() {
           </div>
         </div>
 
-        {/* POPUP NOTIFIKASI KEHADIRAN PESERTA */}
+        {/* POPUP NOTIFIKASI ABSENSI (Akan muncul setelah scan berhasil/gagal) */}
         {scanResult && (
           <div
-            className={`p-4 rounded-2xl border text-center transition animate-fadeIn ${
+            className={`p-5 rounded-2xl border text-center transition animate-fadeIn space-y-2 ${
               scanResult.type === 'success'
                 ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
                 : scanResult.type === 'already'
@@ -290,22 +305,51 @@ export default function ScanNatalPage() {
                 : 'bg-red-50 border-red-200 text-red-900'
             }`}
           >
-            <h3 className="font-bold text-sm">{scanResult.title}</h3>
-            <p className="text-xs mt-1 font-medium">{scanResult.message}</p>
-
-            <button
-              onClick={() => setScanResult(null)}
-              className="mt-3 px-3 py-1 bg-black/10 hover:bg-black/20 text-current font-bold text-[10px] rounded-lg transition"
-            >
-              Lanjut Scan ↵
-            </button>
+            <div className="text-2xl">
+              {scanResult.type === 'success' ? '✅' : scanResult.type === 'already' ? '⚠️' : '❌'}
+            </div>
+            <h3 className="font-bold text-base">{scanResult.title}</h3>
+            <p className="text-xs font-semibold leading-relaxed">{scanResult.message}</p>
           </div>
         )}
 
-        <div className="relative overflow-hidden rounded-2xl bg-black border-2 border-slate-300">
-          <div id="qr-reader" className="w-full h-auto min-h-[260px]" />
+        {/* AREA KAMERA SCANNER */}
+        <div className="relative overflow-hidden rounded-2xl bg-slate-900 border-2 border-slate-300 min-h-[260px] flex flex-col items-center justify-center p-4">
+          
+          <div
+            id="qr-reader"
+            className={`w-full h-auto ${!isScanning ? 'hidden' : 'block'}`}
+          />
+
+          {!isScanning && (
+            <div className="text-center space-y-3 py-6">
+              <div className="w-16 h-16 mx-auto bg-amber-500/10 text-amber-600 rounded-full flex items-center justify-center text-3xl shadow-inner">
+                📷
+              </div>
+              <p className="text-xs text-slate-300 font-medium">
+                {scanResult ? 'Kamera ditutup setelah scan.' : 'Kamera belum aktif.'}
+              </p>
+              <button
+                onClick={startScanner}
+                className="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md transition transform active:scale-95 inline-flex items-center gap-2"
+              >
+                <span>📷</span> Buka Kamera Scanner
+              </button>
+            </div>
+          )}
+
+          {isScanning && (
+            <button
+              onClick={stopScanner}
+              className="mt-3 px-3 py-1 bg-red-600/80 hover:bg-red-700 text-white font-bold text-[10px] rounded-lg transition"
+            >
+              ✕ Tutup Kamera
+            </button>
+          )}
+
         </div>
 
+        {/* SELECT PILIH KAMERA */}
         {cameras.length > 0 && (
           <div className="pt-1 text-left space-y-1">
             <label className="block text-[10px] font-bold uppercase tracking-wider text-[#3b3028]/60 text-center">
@@ -313,7 +357,12 @@ export default function ScanNatalPage() {
             </label>
             <select
               value={selectedCameraId}
-              onChange={(e) => setSelectedCameraId(e.target.value)}
+              onChange={(e) => {
+                setSelectedCameraId(e.target.value);
+                if (isScanning) {
+                  stopScanner().then(() => startScanner());
+                }
+              }}
               className="w-full px-3 py-2 bg-[#f8f5f1] border border-[#3b3028]/20 rounded-xl text-xs text-[#3b3028] font-medium focus:outline-none"
             >
               {cameras.map((cam) => (
