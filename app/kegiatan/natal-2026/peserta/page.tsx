@@ -359,7 +359,7 @@ export default function PesertaNatalPage() {
                 disabled={currentPage === 1}
                 className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition"
               >
-                ← SBLM
+                ← BEFORE
               </button>
 
               <span className="px-3 py-1.5 bg-amber-50 border border-amber-200 text-amber-900 rounded-lg font-bold">
@@ -369,7 +369,7 @@ export default function PesertaNatalPage() {
               <button
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1.5 bg-[#ffffff] border border-slate-200 rounded-lg font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition"
+                className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition"
               >
                 NEXT →
               </button>
