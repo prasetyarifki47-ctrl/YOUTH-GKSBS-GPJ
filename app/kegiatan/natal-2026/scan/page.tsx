@@ -81,7 +81,6 @@ export default function ScanNatalPage() {
         }));
         setCameras(camList);
 
-        // Pilih kamera belakang secara otomatis
         const backCamera = camList.find((c) =>
           /back|rear|environment|0/i.test(c.label)
         );
@@ -97,18 +96,34 @@ export default function ScanNatalPage() {
     }
   };
 
-  // Fungsi Memulai Scanner Kamera
+  // FUNGSI MATIKAN KAMERA DENGAN AMAN
+  const stopScanner = async () => {
+    if (html5QrCodeRef.current) {
+      try {
+        if (html5QrCodeRef.current.isScanning) {
+          await html5QrCodeRef.current.stop();
+        }
+        await html5QrCodeRef.current.clear();
+      } catch (err) {
+        console.error('Gagal melepaskan instance kamera:', err);
+      } finally {
+        html5QrCodeRef.current = null;
+        setIsScanning(false);
+      }
+    }
+  };
+
+  // FUNGSI NYALAKAN KAMERA
   const startScanner = async () => {
-    if (isScanning || isProcessing) return;
+    if (isProcessing) return;
+
+    // Bersihkan sesi kamera lama dulu
+    await stopScanner();
+
+    // Beri jeda 200ms agar hardware kamera dilepas oleh sistem operasi browser
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     try {
-      // Hentikan sesi lama jika ada
-      if (html5QrCodeRef.current) {
-        try {
-          await html5QrCodeRef.current.stop();
-        } catch (_) {}
-      }
-
       const html5QrCode = new Html5Qrcode('qr-reader');
       html5QrCodeRef.current = html5QrCode;
 
@@ -132,37 +147,22 @@ export default function ScanNatalPage() {
       setScanResult(null);
     } catch (err) {
       console.error('Gagal memulai kamera:', err);
-      alert('Gagal mengaktifkan kamera. Pastikan izin kamera sudah diberikan.');
+      setIsScanning(false);
+      alert('Kamera sedang sibuk atau tidak mendapat izin. Coba muat ulang halaman.');
     }
   };
 
-  // Fungsi Menghentikan Kamera
-  const stopScanner = async () => {
-    if (html5QrCodeRef.current && isScanning) {
-      try {
-        await html5QrCodeRef.current.stop();
-        html5QrCodeRef.current = null;
-      } catch (err) {
-        console.error('Gagal menghentikan kamera:', err);
-      } finally {
-        setIsScanning(false);
-      }
-    }
-  };
-
-  // Matikan kamera saat komponen ditutup
   useEffect(() => {
     return () => {
       stopScanner();
     };
   }, []);
 
-  // Handler saat QR Code Terdeteksi
   const handleQrScanned = async (rawCode: string) => {
     if (isProcessing) return;
     setIsProcessing(true);
 
-    // 1. Langsung MATIKAN kamera agar tidak jepret-jepret berulang kali
+    // Stop scanner segera setelah terdeteksi 1 QR Code
     await stopScanner();
 
     const cleanCode = rawCode.trim();
@@ -273,7 +273,6 @@ export default function ScanNatalPage() {
           </p>
         </div>
 
-        {/* Ringkasan Statistik */}
         <div className="grid grid-cols-2 gap-3 pt-1">
           <div className="p-3 bg-[#f8f9fa] border border-slate-200/80 rounded-2xl">
             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">
@@ -294,10 +293,10 @@ export default function ScanNatalPage() {
           </div>
         </div>
 
-        {/* POPUP NOTIFIKASI ABSENSI (Akan muncul setelah scan berhasil/gagal) */}
+        {/* POPUP NOTIFIKASI HASIL SCAN */}
         {scanResult && (
           <div
-            className={`p-5 rounded-2xl border text-center transition animate-fadeIn space-y-2 ${
+            className={`p-4 rounded-2xl border text-center transition animate-fadeIn space-y-1.5 ${
               scanResult.type === 'success'
                 ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
                 : scanResult.type === 'already'
@@ -305,10 +304,10 @@ export default function ScanNatalPage() {
                 : 'bg-red-50 border-red-200 text-red-900'
             }`}
           >
-            <div className="text-2xl">
+            <div className="text-xl">
               {scanResult.type === 'success' ? '✅' : scanResult.type === 'already' ? '⚠️' : '❌'}
             </div>
-            <h3 className="font-bold text-base">{scanResult.title}</h3>
+            <h3 className="font-bold text-sm">{scanResult.title}</h3>
             <p className="text-xs font-semibold leading-relaxed">{scanResult.message}</p>
           </div>
         )}
@@ -327,11 +326,12 @@ export default function ScanNatalPage() {
                 📷
               </div>
               <p className="text-xs text-slate-300 font-medium">
-                {scanResult ? 'Kamera ditutup setelah scan.' : 'Kamera belum aktif.'}
+                {scanResult ? 'Scan selesai. Siap scan peserta berikutnya.' : 'Kamera belum aktif.'}
               </p>
               <button
                 onClick={startScanner}
-                className="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md transition transform active:scale-95 inline-flex items-center gap-2"
+                disabled={isProcessing}
+                className="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md transition transform active:scale-95 inline-flex items-center gap-2 disabled:opacity-50"
               >
                 <span>📷</span> Buka Kamera Scanner
               </button>
@@ -349,7 +349,6 @@ export default function ScanNatalPage() {
 
         </div>
 
-        {/* SELECT PILIH KAMERA */}
         {cameras.length > 0 && (
           <div className="pt-1 text-left space-y-1">
             <label className="block text-[10px] font-bold uppercase tracking-wider text-[#3b3028]/60 text-center">
@@ -357,10 +356,12 @@ export default function ScanNatalPage() {
             </label>
             <select
               value={selectedCameraId}
-              onChange={(e) => {
-                setSelectedCameraId(e.target.value);
+              onChange={async (e) => {
+                const newCamId = e.target.value;
+                setSelectedCameraId(newCamId);
                 if (isScanning) {
-                  stopScanner().then(() => startScanner());
+                  await stopScanner();
+                  setTimeout(() => startScanner(), 300);
                 }
               }}
               className="w-full px-3 py-2 bg-[#f8f5f1] border border-[#3b3028]/20 rounded-xl text-xs text-[#3b3028] font-medium focus:outline-none"
