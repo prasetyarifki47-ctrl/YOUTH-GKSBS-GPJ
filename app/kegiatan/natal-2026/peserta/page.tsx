@@ -23,11 +23,10 @@ export default function PesertaNatalPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedChurchFilter, setSelectedChurchFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'attended' | 'not_attended'>('all');
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
 
-  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Verifikasi PIN Admin
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (pin === 'natal2026') {
@@ -38,7 +37,6 @@ export default function PesertaNatalPage() {
     }
   };
 
-  // Fetch Data Peserta dari PHP API
   const fetchParticipants = async () => {
     setLoading(true);
     try {
@@ -68,13 +66,43 @@ export default function PesertaNatalPage() {
     }
   }, [isAuthorized]);
 
-  // Daftar Gereja Unik untuk Dropdown Filter
+  const handleToggleManual = async (id: number, currentStatus: number) => {
+    const targetStatus = currentStatus === 1 ? 0 : 1;
+    setUpdatingId(id);
+
+    try {
+      const API_URL =
+        process.env.NODE_ENV === 'development'
+          ? 'https://youthgksbsgpj.web.id/api/checkin.php'
+          : '/api/checkin.php';
+
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, targetStatus }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setParticipants((prev) =>
+          prev.map((p) => (p.id === id ? { ...p, statusAttended: targetStatus } : p))
+        );
+      } else {
+        alert(data.message || 'Gagal mengubah status absensi.');
+      }
+    } catch (err) {
+      console.error('Toggle Error:', err);
+      alert('Gagal terhubung ke server.');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const churchOptions = useMemo(() => {
     const list = Array.from(new Set(participants.map((p) => p.church))).filter(Boolean);
     return list.sort();
   }, [participants]);
 
-  // Hitung Statistika (Total, Hadir, Belum Hadir)
   const stats = useMemo(() => {
     const total = participants.length;
     const attended = participants.filter((p) => Number(p.statusAttended) === 1).length;
@@ -82,21 +110,17 @@ export default function PesertaNatalPage() {
     return { total, attended, notAttended };
   }, [participants]);
 
-  // Filter Data Berdasarkan Input Pencarian, Dropdown Gereja, dan Tab Status
   const filteredParticipants = useMemo(() => {
     return participants.filter((p) => {
-      // 1. Search Query
       const query = searchQuery.toLowerCase();
       const matchSearch =
         p.fullName.toLowerCase().includes(query) ||
         p.ticketCode.toLowerCase().includes(query);
 
-      // 2. Church Filter
       const matchChurch = selectedChurchFilter
         ? p.church === selectedChurchFilter
         : true;
 
-      // 3. Status Filter Tab
       let matchStatus = true;
       if (statusFilter === 'attended') {
         matchStatus = Number(p.statusAttended) === 1;
@@ -108,12 +132,10 @@ export default function PesertaNatalPage() {
     });
   }, [participants, searchQuery, selectedChurchFilter, statusFilter]);
 
-  // Reset Halaman saat Filter Berubah
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, selectedChurchFilter, statusFilter]);
 
-  // Data Per Halaman (Pagination)
   const totalPages = Math.ceil(filteredParticipants.length / ITEMS_PER_PAGE) || 1;
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -123,7 +145,6 @@ export default function PesertaNatalPage() {
   const startIndex = filteredParticipants.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0;
   const endIndex = Math.min(currentPage * ITEMS_PER_PAGE, filteredParticipants.length);
 
-  // TAMPILAN VERIFIKASI PIN ADMIN
   if (!isAuthorized) {
     return (
       <main className="min-h-screen pt-28 sm:pt-32 pb-12 px-4 max-w-md mx-auto">
@@ -161,11 +182,9 @@ export default function PesertaNatalPage() {
     );
   }
 
-  // TAMPILAN UTAMA MONITORING PESERTA
   return (
     <main className="min-h-screen pt-28 sm:pt-32 pb-16 px-4 sm:px-6 max-w-6xl mx-auto space-y-6">
       
-      {/* --- HEADER & COUNTER STATS --- */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="font-heading text-xl md:text-2xl font-bold text-[#2a2421]">
@@ -176,21 +195,17 @@ export default function PesertaNatalPage() {
           </p>
         </div>
 
-        {/* 3 CARD STATS (TOTAL, HADIR, BELUM) */}
         <div className="flex items-center gap-2.5 self-start md:self-auto">
-          {/* TOTAL */}
           <div className="px-5 py-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm text-center min-w-[85px]">
             <p className="text-[9px] font-bold tracking-wider text-slate-400 uppercase">TOTAL</p>
             <p className="text-xl font-bold text-slate-800">{stats.total}</p>
           </div>
 
-          {/* HADIR */}
           <div className="px-5 py-2 bg-emerald-50/60 rounded-2xl border border-emerald-200/80 shadow-sm text-center min-w-[85px]">
             <p className="text-[9px] font-bold tracking-wider text-emerald-600 uppercase">HADIR</p>
             <p className="text-xl font-bold text-emerald-600">{stats.attended}</p>
           </div>
 
-          {/* BELUM */}
           <div className="px-5 py-2 bg-amber-50/60 rounded-2xl border border-amber-200/80 shadow-sm text-center min-w-[85px]">
             <p className="text-[9px] font-bold tracking-wider text-amber-600 uppercase">BELUM</p>
             <p className="text-xl font-bold text-amber-600">{stats.notAttended}</p>
@@ -198,11 +213,9 @@ export default function PesertaNatalPage() {
         </div>
       </div>
 
-      {/* --- PANEL FILTER & SEARCH --- */}
       <div className="bg-white/80 backdrop-blur-md rounded-2xl p-3 sm:p-4 border border-slate-200/80 shadow-sm space-y-3">
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           
-          {/* INPUT SEARCH & DROPDOWN GEREJA */}
           <div className="flex flex-col sm:flex-row items-center gap-2.5 flex-1">
             <input
               type="text"
@@ -226,7 +239,6 @@ export default function PesertaNatalPage() {
             </select>
           </div>
 
-          {/* TAB BUTTON STATUS FILTER (Semua, Hadir, Belum) */}
           <div className="flex items-center gap-1 bg-[#f1f3f5] p-1 rounded-xl self-start sm:self-auto">
             <button
               onClick={() => setStatusFilter('all')}
@@ -263,7 +275,6 @@ export default function PesertaNatalPage() {
         </div>
       </div>
 
-      {/* --- TABEL PESERTA --- */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
@@ -273,7 +284,7 @@ export default function PesertaNatalPage() {
                 <th className="py-3.5 px-4">KODE TIKET</th>
                 <th className="py-3.5 px-4">NAMA LENGKAP</th>
                 <th className="py-3.5 px-4">ASAL GEREJA</th>
-                <th className="py-3.5 px-4 text-center">STATUS</th>
+                <th className="py-3.5 px-4 text-center">STATUS (KLIK UNTUK UBAH)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -293,6 +304,7 @@ export default function PesertaNatalPage() {
                 paginatedData.map((item, index) => {
                   const isAttended = Number(item.statusAttended) === 1;
                   const rowNo = startIndex + index;
+                  const isUpdating = updatingId === item.id;
 
                   return (
                     <tr key={item.id} className="hover:bg-slate-50/80 transition">
@@ -309,15 +321,21 @@ export default function PesertaNatalPage() {
                         {item.church}
                       </td>
                       <td className="py-3.5 px-4 text-center">
-                        {isAttended ? (
-                          <span className="inline-block px-3 py-1 bg-emerald-100/70 text-emerald-800 rounded-full text-[10px] font-bold">
-                            Sudah Hadir
+                        <button
+                          onClick={() => handleToggleManual(item.id, Number(item.statusAttended))}
+                          disabled={isUpdating}
+                          title="Klik untuk mengubah status absensi secara manual"
+                          className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold transition transform active:scale-95 disabled:opacity-50 ${
+                            isAttended
+                              ? 'bg-emerald-100/80 text-emerald-800 hover:bg-emerald-200'
+                              : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                          }`}
+                        >
+                          <span className="text-xs">
+                            {isUpdating ? '⏳' : isAttended ? '✓' : '○'}
                           </span>
-                        ) : (
-                          <span className="inline-block px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[10px] font-bold">
-                            Belum Hadir
-                          </span>
-                        )}
+                          {isAttended ? 'Sudah Hadir' : 'Belum Hadir'}
+                        </button>
                       </td>
                     </tr>
                   );
@@ -327,7 +345,6 @@ export default function PesertaNatalPage() {
           </table>
         </div>
 
-        {/* --- FOOTER PAGINATION --- */}
         {!loading && filteredParticipants.length > 0 && (
           <div className="px-4 py-3 bg-[#f8f9fa] border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
             <p>
@@ -352,7 +369,7 @@ export default function PesertaNatalPage() {
               <button
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition"
+                className="px-3 py-1.5 bg-[#ffffff] border border-slate-200 rounded-lg font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition"
               >
                 NEXT →
               </button>
