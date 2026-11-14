@@ -268,7 +268,7 @@ export default function TentangPage() {
                   title="Bendahara"
                   people={[
                     ["Bendahara 1", "Siska Ervina Sari"],
-                    ["Bendahara 2", "Ratna Putri Damyanti"],
+                    ["Bendahara 2", "Ratna Putri Damayanti"],
                   ]}
                 />
               </ScrollReveal>
@@ -314,7 +314,7 @@ export default function TentangPage() {
                   people={[
                     ["Kepala Departemen", "Earnest Allodya Philein"],
                     ["Sekretaris Departemen", "Hecekiel Mongoloi Siadari"],
-                    ["Kepala Divisi Desain", "Frisa"],
+                    ["Kepala Divisi Desain", "Frisa Laderfa"],
                     [
                       "Kepala Divisi Publikasi & Dokumentasi",
                       "Tesalonika",
@@ -342,9 +342,8 @@ export default function TentangPage() {
                   title="Operasional"
                   people={[
                     ["Kepala Departemen", "Geovani Nainggolan"],
-                    ["Sekretaris Departemen", "Dita Surya Atmaja"],
+                    ["Kepala Divisi", "Dita Surya Atmaja"],
                     ["Kepala Divisi Logistik", "Alfarel Mosses Putra"],
-                    ["Kepala Divisi Akomodasi", "Putra"],
                   ]}
                 />
               </ScrollReveal>
